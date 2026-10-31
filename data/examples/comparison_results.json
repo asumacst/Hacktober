@@ -42,6 +42,10 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
+    },
     "matches_expected": true
   },
   {
@@ -89,6 +93,10 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
+    },
     "matches_expected": true
   },
   {
@@ -127,6 +135,12 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
     "matches_expected": true
   },
   {
@@ -152,14 +166,18 @@
       "missing_data": [
         {
           "attribute": "material",
-          "question": "Que material puedes confirmar para este objeto?"
+          "question": "¿Qué material puedes confirmar para este objeto?"
         },
         {
           "attribute": "presentation",
-          "question": "Es una botella, envase, espejo, caja u otra presentacion?"
+          "question": "¿Es una botella, envase, espejo, caja u otra presentación?"
         }
       ],
       "rule_references": []
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
     },
     "matches_expected": true
   },
@@ -186,10 +204,16 @@
       "missing_data": [
         {
           "attribute": "resin_code",
-          "question": "Que numero aparece en el simbolo del plastico?"
+          "question": "¿Qué número aparece en el símbolo del plástico?"
         }
       ],
       "rule_references": []
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
     },
     "matches_expected": true
   },
@@ -228,6 +252,10 @@
           ]
         }
       ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
     },
     "matches_expected": true
   },
@@ -274,6 +302,10 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
+    },
     "matches_expected": true
   },
   {
@@ -311,6 +343,10 @@
           ]
         }
       ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
     },
     "matches_expected": true
   },
@@ -356,6 +392,10 @@
           ]
         }
       ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
     },
     "matches_expected": true
   },
@@ -404,6 +444,10 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
+    },
     "matches_expected": true
   },
   {
@@ -429,7 +473,7 @@
       "missing_data": [
         {
           "attribute": "clean",
-          "question": "El objeto esta limpio?"
+          "question": "¿El objeto está limpio?"
         }
       ],
       "rule_references": [
@@ -453,6 +497,10 @@
           ]
         }
       ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
     },
     "matches_expected": true
   },
@@ -499,6 +547,12 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
     "matches_expected": true
   },
   {
@@ -544,6 +598,10 @@
         }
       ]
     },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
+    },
     "matches_expected": true
   },
   {
@@ -588,6 +646,555 @@
           ]
         }
       ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pp-envase_ketchup",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "pp-envase_ketchup",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: envase ketchup.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pp-envase_ketchup",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pp-envase_sirope",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "pp-envase_sirope",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: envase sirope.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pp-envase_sirope",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-sin-presentacion",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "vidrio-sin-presentacion",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "Faltan datos confirmados del objeto.",
+      "preparation": null,
+      "rule_source_url": null,
+      "consulted_on": null,
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "presentation",
+          "question": "¿Es una botella, envase, espejo, caja u otra presentación?"
+        }
+      ],
+      "rule_references": []
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-sin-caja",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "action_required"
+    },
+    "result": {
+      "item_id": "vidrio-sin-caja",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "action_required",
+      "preparation_actions": [
+        "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde."
+      ],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-envase",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-sin-confirmar-residuos",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "vidrio-sin-confirmar-residuos",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "residue_free",
+          "question": "¿Está libre de restos de comida u otros residuos?"
+        }
+      ],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-envase",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-sin-separacion",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "action_required"
+    },
+    "result": {
+      "item_id": "vidrio-sin-separacion",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "action_required",
+      "preparation_actions": [
+        "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde."
+      ],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-envase",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pet-codigo-contradictorio",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "pet-codigo-contradictorio",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "Falta confirmar el codigo de resina o contradice el material.",
+      "preparation": null,
+      "rule_source_url": null,
+      "consulted_on": null,
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "resin_code",
+          "question": "¿Qué número aparece en el símbolo del plástico?"
+        }
+      ],
+      "rule_references": []
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pet-sin-separacion-confirmada",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "pet-sin-separacion-confirmada",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; separar PET por transparente, azul y verde en el recipiente correspondiente.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "sorted_by_color",
+          "question": "¿Está separado por los colores indicados en la regla?"
+        }
+      ],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pet-botella",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "carton-sin-confirmar-grasa",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "carton-sin-confirmar-grasa",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "La evidencia requiere aclaracion antes de decidir.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "greasy",
+          "question": "¿El cartón tiene grasa?"
+        }
+      ],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-carton-exclusion-greasy",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "carton-mojado",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "carton-mojado",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: carton mojado.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-carton-exclusion-wet",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "carton-pintado",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "carton-pintado",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: carton pintado.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-carton-exclusion-painted",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-presentacion-no-documentada",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "vidrio-presentacion-no-documentada",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "No hay una regla suficiente para esta presentacion.",
+      "preparation": null,
+      "rule_source_url": null,
+      "consulted_on": null,
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": []
+    },
+    "checks": {
+      "acceptance": true,
+      "preparation_status": true,
+      "missing_attributes": true,
+      "rule_ids": true
     },
     "matches_expected": true
   }

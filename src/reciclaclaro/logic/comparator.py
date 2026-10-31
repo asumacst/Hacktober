@@ -4,20 +4,21 @@ from reciclaclaro.contracts import (
     AppError, Center, CenterRule, ComparisonResult, ConfirmedItem, Material,
     PendingQuestion, ReciclaClaroError, RuleReference,
 )
+from .catalog import has_rule_evidence
 
 _QUESTIONS = {
-    "material": "Que material puedes confirmar para este objeto?",
-    "presentation": "Es una botella, envase, espejo, caja u otra presentacion?",
-    "resin_code": "Que numero aparece en el simbolo del plastico?",
-    "color": "Que color tiene el objeto?",
-    "clean": "El objeto esta limpio?",
-    "residue_free": "Esta libre de restos de comida u otros residuos?",
-    "corrugated": "Confirmas que es carton corrugado?",
-    "wet": "El carton esta mojado?",
-    "greasy": "El carton tiene grasa?",
-    "painted": "El carton esta pintado?",
-    "boxed": "Los envases de vidrio estan dentro de una caja?",
-    "sorted_by_color": "Esta separado por los colores indicados en la regla?",
+    "material": "¿Qué material puedes confirmar para este objeto?",
+    "presentation": "¿Es una botella, envase, espejo, caja u otra presentación?",
+    "resin_code": "¿Qué número aparece en el símbolo del plástico?",
+    "color": "¿Qué color tiene el objeto?",
+    "clean": "¿El objeto está limpio?",
+    "residue_free": "¿Está libre de restos de comida u otros residuos?",
+    "corrugated": "¿Confirmas que es cartón corrugado?",
+    "wet": "¿El cartón está mojado?",
+    "greasy": "¿El cartón tiene grasa?",
+    "painted": "¿El cartón está pintado?",
+    "boxed": "¿Los envases de vidrio están dentro de una caja?",
+    "sorted_by_color": "¿Está separado por los colores indicados en la regla?",
 }
 _BOOL_ATTRIBUTES = {
     "clean", "residue_free", "corrugated", "wet", "greasy", "painted", "boxed", "sorted_by_color",
@@ -75,10 +76,7 @@ def _result(item, center, acceptance, reason, rules=(), **kwargs):
 
 
 def _has_evidence(rule):
-    return bool(rule.rule_id and rule.references and any(
-        ref.url == rule.source_url and ref.consulted_on == rule.consulted_on
-        for ref in rule.references
-    ))
+    return has_rule_evidence(rule)
 
 
 def _exclusion_reason(rule):
