@@ -1,0 +1,275 @@
+{
+  "scope": "calidad estructural y semantica local; no verifica vigencia en vivo",
+  "hash_normalization": "UTF-8 sin BOM; saltos de linea LF",
+  "catalog_sha256": "5f15110ec3b2e207c67d9fe2d79958772192dddd505be129bf5aa0216953d5eb",
+  "centers": 1,
+  "rules": 18,
+  "rules_by_status": {
+    "aceptado": 6,
+    "no_admitido": 11,
+    "pendiente": 1
+  },
+  "rules_by_material": {
+    "HDPE_2": 1,
+    "PET_1": 3,
+    "PP_5": 4,
+    "papel_carton": 5,
+    "vidrio": 5
+  },
+  "rules_with_evidence": 18,
+  "unique_source_records": 2,
+  "sources_without_publication_date": 2,
+  "sources_without_update_date": 2,
+  "unresolved_rule_ids": [
+    "fas-car-pp-envase-por-confirmar"
+  ],
+  "required_confirmations": [
+    {
+      "rule_id": "fas-car-carton-caja",
+      "material": "papel_carton",
+      "presentation": "caja",
+      "status": "aceptado",
+      "acceptance_attributes": [
+        "corrugated",
+        "greasy",
+        "material",
+        "painted",
+        "presentation",
+        "wet"
+      ],
+      "preparation_attributes": [
+        "clean",
+        "presentation",
+        "residue_free"
+      ]
+    },
+    {
+      "rule_id": "fas-car-carton-caja_desarmada",
+      "material": "papel_carton",
+      "presentation": "caja_desarmada",
+      "status": "aceptado",
+      "acceptance_attributes": [
+        "corrugated",
+        "greasy",
+        "material",
+        "painted",
+        "presentation",
+        "wet"
+      ],
+      "preparation_attributes": [
+        "clean",
+        "presentation",
+        "residue_free"
+      ]
+    },
+    {
+      "rule_id": "fas-car-carton-exclusion-greasy",
+      "material": "papel_carton",
+      "presentation": null,
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "corrugated",
+        "greasy",
+        "material",
+        "presentation"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-carton-exclusion-painted",
+      "material": "papel_carton",
+      "presentation": null,
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "corrugated",
+        "material",
+        "painted",
+        "presentation"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-carton-exclusion-wet",
+      "material": "papel_carton",
+      "presentation": null,
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "corrugated",
+        "material",
+        "presentation",
+        "wet"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-hdpe-botella",
+      "material": "HDPE_2",
+      "presentation": "botella",
+      "status": "aceptado",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": [
+        "clean",
+        "residue_free"
+      ]
+    },
+    {
+      "rule_id": "fas-car-pet-botella",
+      "material": "PET_1",
+      "presentation": "botella",
+      "status": "aceptado",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": [
+        "clean",
+        "residue_free",
+        "sorted_by_color"
+      ]
+    },
+    {
+      "rule_id": "fas-car-pet-envase_ensalada",
+      "material": "PET_1",
+      "presentation": "envase_ensalada",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-pet-envase_huevos",
+      "material": "PET_1",
+      "presentation": "envase_huevos",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-pp-envase-por-confirmar",
+      "material": "PP_5",
+      "presentation": "envase",
+      "status": "pendiente",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-pp-envase_ketchup",
+      "material": "PP_5",
+      "presentation": "envase_ketchup",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-pp-envase_sirope",
+      "material": "PP_5",
+      "presentation": "envase_sirope",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-pp-tapita",
+      "material": "PP_5",
+      "presentation": "tapita",
+      "status": "aceptado",
+      "acceptance_attributes": [
+        "material",
+        "presentation",
+        "resin_code"
+      ],
+      "preparation_attributes": [
+        "clean",
+        "residue_free"
+      ]
+    },
+    {
+      "rule_id": "fas-car-vidrio-envase",
+      "material": "vidrio",
+      "presentation": "envase",
+      "status": "aceptado",
+      "acceptance_attributes": [
+        "material",
+        "presentation"
+      ],
+      "preparation_attributes": [
+        "boxed",
+        "clean",
+        "residue_free",
+        "sorted_by_color"
+      ]
+    },
+    {
+      "rule_id": "fas-car-vidrio-espejo",
+      "material": "vidrio",
+      "presentation": "espejo",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-vidrio-mesa_vidrio",
+      "material": "vidrio",
+      "presentation": "mesa_vidrio",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-vidrio-puerta_vidrio",
+      "material": "vidrio",
+      "presentation": "puerta_vidrio",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation"
+      ],
+      "preparation_attributes": []
+    },
+    {
+      "rule_id": "fas-car-vidrio-ventana",
+      "material": "vidrio",
+      "presentation": "ventana",
+      "status": "no_admitido",
+      "acceptance_attributes": [
+        "material",
+        "presentation"
+      ],
+      "preparation_attributes": []
+    }
+  ],
+  "warnings": [
+    "Las fechas ausentes no se estiman.",
+    "Una URL valida no demuestra que el centro siga operando ni verifica el contenido de la fuente."
+  ]
+}
