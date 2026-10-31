@@ -1,0 +1,38 @@
+{
+  "PET_1": {
+    "item_id": "template",
+    "center_id": "mock-centro",
+    "status": "aceptado",
+    "reason": "MOCK — PET 1 aceptado únicamente en este ejemplo ficticio.",
+    "preparation": "MOCK: retirar residuos y secar según este ejemplo ficticio.",
+    "rule_source_url": "https://example.invalid/mock/centro/pet",
+    "consulted_on": "2026-10-31"
+  },
+  "aluminio": {
+    "item_id": "template",
+    "center_id": "mock-centro",
+    "status": "aceptado",
+    "reason": "MOCK — Aluminio aceptado únicamente en este ejemplo ficticio.",
+    "preparation": "MOCK: vaciar y secar según este ejemplo ficticio.",
+    "rule_source_url": "https://example.invalid/mock/centro/aluminio",
+    "consulted_on": "2026-10-31"
+  },
+  "vidrio": {
+    "item_id": "template",
+    "center_id": "mock-centro",
+    "status": "no_admitido",
+    "reason": "MOCK — Este centro ficticio tiene una exclusión explícita del vidrio.",
+    "preparation": null,
+    "rule_source_url": "https://example.invalid/mock/centro/vidrio",
+    "consulted_on": "2026-10-31"
+  },
+  "desconocido": {
+    "item_id": "template",
+    "center_id": "mock-centro",
+    "status": "pendiente",
+    "reason": "MOCK — Falta identificación o no hay un ejemplo documentado para este material; confirma con el centro.",
+    "preparation": null,
+    "rule_source_url": null,
+    "consulted_on": null
+  }
+}
