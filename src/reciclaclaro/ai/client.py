@@ -171,7 +171,7 @@ def _parse(text):
 def identify(req: AnalysisRequest, *, mock: bool = False) -> IdentificationResult:
     """Identifica una imagen; lanza ReciclaClaroError ante un fallo controlado.
 
-    Configuración: GEMINI_API_KEY (o GOOGLE_API_KEY), GEMMA_MODEL opcional.
+    Configuración: GEMINI_API_KEY (o GOOGLE_API_KEY), GEMINI_MODEL opcional.
     mock=True devuelve siempre la misma muestra sintética y nunca usa red.
     El backend local queda pendiente y produce un error explícito.
     """
@@ -179,7 +179,7 @@ def identify(req: AnalysisRequest, *, mock: bool = False) -> IdentificationResul
     _validate_image(req)
     if req.backend != "gemini_api":
         raise _error("entrada_invalida", "El proveedor local todavía no está implementado.")
-    model = os.getenv("GEMMA_MODEL", _DEFAULT_MODEL)
+    model = os.getenv("GEMINI_MODEL", _DEFAULT_MODEL)
     if model not in _MODELS:
         raise _error("entrada_invalida", "Configura una de las dos variantes Gemma 4 acordadas.")
     if mock:
