@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -14,38 +15,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import streamlit as st  # noqa: E402
 
 from reciclaclaro.contracts import (  # noqa: E402
-    AnalysisRequest, AppError, Center, ConfirmedItem, DeliveryPlan, DetectedItem,
-    IdentificationResult, Material, ReciclaClaroError,
+    AnalysisRequest, AppError, Center, ConfirmedItem, DeliveryPlan, IdentificationResult,
+    ReciclaClaroError,
 )
 from reciclaclaro.logic import compare_items, load_centers  # noqa: E402
 from reciclaclaro.ui import components as ui  # noqa: E402
 from reciclaclaro.ui import state  # noqa: E402
 
-try:
-    from reciclaclaro.ui import client  # adaptador mock/live (worktree de Codex)
-except ImportError:
-    client = None
+from reciclaclaro.ui import client  # noqa: E402
 
 
-# TEMPORAL: adaptador mínimo mientras llegan ui/client.py (feature/noel-codex) y el
-# orquestador de Ángel. Eliminar al integrar. La identificación es MOCK; centros y
-# comparación usan el catálogo y el comparador reales de José (logic/).
-class _TemporalClient:
-    def identify(self, req: AnalysisRequest) -> IdentificationResult:
-        return IdentificationResult(
-            items=[
-                DetectedItem(item_id="obj-1", description="Botella transparente", proposed_material=Material.PET_1,
-                             proposed_presentation="botella", visible_evidence="Símbolo 1 visible en la base"),
-                DetectedItem(item_id="obj-2", description="Caja de cartón", proposed_material=Material.PAPEL_CARTON,
-                             proposed_presentation="caja", visible_evidence="Cartón marrón con pliegues"),
-                DetectedItem(item_id="obj-3", description="Frasco de vidrio", proposed_material=Material.VIDRIO,
-                             proposed_presentation="envase", visible_evidence="Vidrio transparente con tapa"),
-                DetectedItem(item_id="obj-4", description="Envase blanco sin símbolo",
-                             proposed_material=Material.DESCONOCIDO, visible_evidence="No se distingue el símbolo",
-                             pending_question="¿Qué número tiene el símbolo de reciclaje?"),
-            ],
-            model_id="mock", backend=req.backend, latency_ms=0, is_mock=True,
-        )
+# TEMPORAL hasta que exista el orquestador de Ángel: en modo mock, client.py replica
+# identificaciones MOCK, pero los centros y la comparación usan el catálogo y el
+# comparador reales de José (logic/) en lugar de los fixtures ficticios.
+# En modo live todo pasa por client.py → reciclaclaro.orchestrator.
+class _CatalogClient:
+    identify = staticmethod(client.identify)
 
     def list_centers(self) -> list[Center]:
         return load_centers()
@@ -62,7 +47,7 @@ class _TemporalClient:
                             revision=items[0].revision if items else 0)
 
 
-api = client if client is not None else _TemporalClient()
+api = client if os.environ.get("RECICLACLARO_UI_MODE", "mock").strip().lower() == "live" else _CatalogClient()
 
 
 def call(fn, *args):
