@@ -38,7 +38,7 @@ con imágenes reales; las pruebas de transporte no demuestran su calidad visual.
   transporte HTTP de la biblioteca estándar a Gemini API, `generateContent`.
 - Clave de servidor en `GEMINI_API_KEY` o, como alternativa, `GOOGLE_API_KEY`.
   No hay carga automática de `.env`; D debe configurar el entorno.
-- `GEMMA_MODEL`: por defecto `gemma-4-26b-a4b-it`; también admite
+- `GEMINI_MODEL`: por defecto `gemma-4-26b-a4b-it`; también admite
   `gemma-4-31b-it`. No cambia de variante silenciosamente.
 - JPEG, PNG o WebP, máximo 8 MiB. Se comprueba tamaño y firma del contenedor;
   no se decodifica completamente la imagen. Archivos corruptos con cabecera

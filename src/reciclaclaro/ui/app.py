@@ -19,6 +19,7 @@ from reciclaclaro.contracts import AnalysisRequest, AppError, IdentificationResu
 from reciclaclaro.ui import client as api  # noqa: E402  mock: fixtures · live: orquestador
 from reciclaclaro.ui import components as ui  # noqa: E402
 from reciclaclaro.ui import state  # noqa: E402
+from reciclaclaro.ui import theme  # noqa: E402
 
 
 def call(fn, *args):
@@ -34,17 +35,21 @@ def call(fn, *args):
     return None
 
 
-st.set_page_config(page_title="ReciclaClaro", page_icon="♻️", layout="centered")
+st.set_page_config(page_title="ReciclaClaro", page_icon=theme.asset("logo-mark.svg"), layout="centered")
+theme.apply()
+st.logo(theme.asset("logo.svg"), icon_image=theme.asset("logo-mark.svg"), size="large")
 state.init(st.session_state)
 ss = st.session_state
 
 with st.sidebar:
-    st.header("Ajustes")
+    st.header(":material/tune: Ajustes")
     backend = st.radio("Proveedor de Gemma 4", ["gemini_api", "local"],
                        format_func=ui.BACKEND_LABEL.get,
                        help="El modo local usa Ollama en esta máquina. El reto exige la Gemini API.")
 
 ui.header()
+steps = st.empty()  # se rellena con el paso alcanzado antes de cada parada
+ui.progress(steps, 1)
 
 photo = ui.uploader()
 if photo is None:
@@ -70,6 +75,7 @@ if ss.error is not None and ss.identification is None:
 result: IdentificationResult | None = ss.identification
 if result is None:
     st.stop()
+ui.progress(steps, 2)
 if result.is_mock:
     ui.mock_banner()
 
@@ -94,7 +100,9 @@ if submitted:
 if ss.confirmed is None:
     ui.model_footer(result)
     st.stop()
+ui.progress(steps, 3)
 if state.has_pending_edits(ss, draft):
+    ui.progress(steps, 2)
     st.warning("Tienes cambios sin confirmar. Pulsa «Confirmar materiales» para generar un plan actualizado.")
     ui.model_footer(result)
     st.stop()
@@ -114,6 +122,7 @@ if ss.error is not None:
         ss.error = None
         st.rerun()
 elif state.plan_is_current(ss, current_fp):
+    ui.progress(steps, 4)
     ui.plan(ss.plan, {i.item_id: i.description for i in result.items})
 elif ss.plan is not None:
     st.info("Cambiaste los materiales o el centro. Vuelve a generar el plan para verlo actualizado.")

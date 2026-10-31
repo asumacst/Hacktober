@@ -1,0 +1,34 @@
+# Tema visual de la interfaz (Rol C). Paleta «Canal y selva»; tokens en src/reciclaclaro/ui/theme.py.
+# Streamlit lo lee al arrancar desde la raíz: streamlit run src/reciclaclaro/ui/app.py
+
+[theme]
+base = "light"
+primaryColor = "#0B5D55"
+backgroundColor = "#F6F1E7"
+secondaryBackgroundColor = "#EAE3D4"
+textColor = "#17302C"
+linkColor = "#0B5D55"
+borderColor = "#DDD4C2"
+showWidgetBorder = true
+baseRadius = "10px"
+buttonRadius = "10px"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap, sans-serif"
+headingFont = "Plus Jakarta Sans:https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap, sans-serif"
+headingFontWeights = [800, 700, 700, 600, 600, 600]
+# Colores de estado con contraste AA sobre blanco (aceptado, no admitido, pendiente, preparación).
+greenColor = "#1E7A46"
+greenTextColor = "#1E7A46"
+redColor = "#B3261E"
+redTextColor = "#B3261E"
+orangeColor = "#9A6700"
+orangeTextColor = "#9A6700"
+blueColor = "#0B5D55"
+blueTextColor = "#0B5D55"
+
+[theme.sidebar]
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F6F1E7"
+borderColor = "#E6DECE"
+
+[client]
+toolbarMode = "minimal"
