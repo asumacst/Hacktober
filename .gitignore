@@ -16,3 +16,6 @@ venv/
 
 # Claude Code: la configuración local no se comparte; .claude/agents/ sí
 .claude/settings.local.json
+
+# Artefactos de herramientas de prueba en navegador (Playwright MCP)
+.playwright-mcp/
