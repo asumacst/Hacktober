@@ -1,0 +1,31 @@
+[
+  {
+    "center_id": "mock-centro",
+    "name": "MOCK — Centro ficticio para demostración",
+    "rules": [
+      {
+        "material": "PET_1",
+        "status": "aceptado",
+        "preparation": "MOCK: retirar residuos y secar según este ejemplo ficticio.",
+        "source_url": "https://example.invalid/mock/centro/pet",
+        "consulted_on": "2026-10-31"
+      },
+      {
+        "material": "aluminio",
+        "status": "aceptado",
+        "preparation": "MOCK: vaciar y secar según este ejemplo ficticio.",
+        "source_url": "https://example.invalid/mock/centro/aluminio",
+        "consulted_on": "2026-10-31"
+      },
+      {
+        "material": "vidrio",
+        "status": "no_admitido",
+        "preparation": null,
+        "source_url": "https://example.invalid/mock/centro/vidrio",
+        "consulted_on": "2026-10-31"
+      }
+    ],
+    "source_url": "https://example.invalid/mock/centro",
+    "consulted_on": "2026-10-31"
+  }
+]
