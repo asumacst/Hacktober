@@ -1,6 +1,7 @@
 """Decisiones esperadas y errores de datos, sin acceder a la red."""
 
 from copy import deepcopy
+from itertools import product
 import json
 
 import pytest
@@ -186,6 +187,43 @@ def test_unstructured_instruction_remains_an_action_until_verifiable(center):
             rule.preparation_conditions = {}
     result = compare_item(sample(), incomplete)
     assert result.preparation_status == "action_required"
+
+
+def test_glass_readiness_requires_all_four_confirmations(center):
+    # 81 combinaciones: un dato desconocido nunca cuenta como un si.
+    names = ["clean", "residue_free", "boxed", "sorted_by_color"]
+    for values in product((True, False, None), repeat=4):
+        payload = sample().model_dump()
+        for name, value in zip(names, values):
+            payload["attributes"][name] = {
+                "value": value, "source": "unknown" if value is None else "user_confirmed",
+            }
+        result = compare_item(ConfirmedItem.model_validate(payload), center)
+        assert result.acceptance == "accepted", values
+        assert (result.preparation_status == "ready") == all(value is True for value in values), values
+        assert {q.attribute for q in result.missing_data} == {
+            name for name, value in zip(names, values) if value is None
+        }, values
+        if any(value is False for value in values):
+            assert result.preparation_status == "action_required", values
+
+
+def test_carton_exclusions_and_unknowns_for_all_27_combinations(center):
+    names = ["wet", "greasy", "painted"]
+    for values in product((True, False, None), repeat=3):
+        payload = sample("carton-listo").model_dump()
+        for name, value in zip(names, values):
+            payload["attributes"][name] = {
+                "value": value, "source": "unknown" if value is None else "user_confirmed",
+            }
+        result = compare_item(ConfirmedItem.model_validate(payload), center)
+        if any(value is True for value in values):
+            assert result.acceptance == "rejected", values
+            assert not result.preparation_actions, values
+        elif any(value is None for value in values):
+            assert result.acceptance == "unknown", values
+        else:
+            assert result.acceptance == "accepted", values
 
 
 @pytest.mark.parametrize("kind", ["empty", "broken_json", "wrong_root", "duplicate_center", "duplicate_rule", "no_source", "no_rule_id", "bad_url"])

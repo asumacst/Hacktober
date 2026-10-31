@@ -59,63 +59,123 @@ def _questions(item: DetectedItem) -> str:
     return " · ".join(texts)
 
 
+MATERIAL_UI = {
+    "PET_1": "Plástico PET (1)", "HDPE_2": "Plástico HDPE (2)", "PP_5": "Plástico PP (5)",
+    "aluminio": "Aluminio", "vidrio": "Vidrio", "papel_carton": "Papel o cartón", "desconocido": "No sé",
+}
+PRESENTATION_UI = {
+    "botella": "Botella", "envase": "Envase o frasco", "tapita": "Tapita",
+    "envase_huevos": "Envase de huevos", "envase_ensalada": "Envase de ensalada",
+    "caja": "Caja armada", "caja_desarmada": "Caja desarmada", "espejo": "Espejo",
+    "ventana": "Ventana", "puerta_vidrio": "Puerta de vidrio", "mesa_vidrio": "Mesa de vidrio",
+}
+# Preguntas de sí/no que el catálogo puede exigir; el orden es el de la pantalla.
+CHECK_UI = {
+    "clean": "¿Está limpio?",
+    "residue_free": "¿Sin restos de comida u otros residuos?",
+    "sorted_by_color": "¿Lo separaste por color?",
+    "boxed": "¿Lo llevas dentro de una caja?",
+    "corrugated": "¿Es cartón corrugado (con ondas por dentro)?",
+    "wet": "¿Está mojado?",
+    "greasy": "¿Tiene grasa?",
+    "painted": "¿Está pintado?",
+}
+PLASTICS = {Material.PET_1, Material.HDPE_2, Material.PP_5}
+
+
+def catalog_fields(centers: list[Center], material: Material) -> tuple[list[str], list[str], bool]:
+    """Presentaciones, preguntas de sí/no y si pide símbolo, según las reglas del catálogo.
+
+    La interfaz no decide nada: solo pregunta lo que alguna regla del material consulta.
+    """
+    presentations: list[str] = []
+    checks: set[str] = set()
+    needs_resin = material in PLASTICS or material == Material.DESCONOCIDO
+    for rule in (r for c in centers for r in c.rules if r.material == material):
+        if rule.presentation and rule.presentation not in presentations:
+            presentations.append(rule.presentation)
+        names = {*rule.conditions, *rule.preparation_conditions, *rule.required_attributes}
+        checks |= names & CHECK_UI.keys()
+        needs_resin |= "resin_code" in names
+    return presentations, [n for n in CHECK_UI if n in checks], needs_resin
+
+
 def _confirmed_item(row: dict, original: DetectedItem, analysis_id: str | None) -> ConfirmedItem:
     """Solo marca como confirmado lo que la persona indicó; nada se copia de Gemma."""
     attributes: dict[str, ConfirmedAttribute] = {}
+    presentation = row.get("Presentación")
+    if presentation == UNKNOWN:
+        presentation = None
     if row["Confirmo"]:
         attributes["material"] = ConfirmedAttribute(value=row["Material"], source="user_confirmed")
+        if presentation is not None:
+            attributes["presentation"] = ConfirmedAttribute(value=presentation, source="user_confirmed")
     if row["Símbolo"] is not None:
         attributes["resin_code"] = ConfirmedAttribute(value=int(row["Símbolo"]), source="user_confirmed")
-    if YES_NO[row["¿Limpio?"]] is not None:
-        attributes["clean"] = ConfirmedAttribute(value=YES_NO[row["¿Limpio?"]], source="user_confirmed")
+    answers = {"clean": row["¿Limpio?"], **row.get("checks", {})}
+    for name, answer in answers.items():
+        if YES_NO[answer] is not None:
+            attributes[name] = ConfirmedAttribute(value=YES_NO[answer], source="user_confirmed")
     return ConfirmedItem(
         item_id=row["item_id"],
         analysis_id=analysis_id,
         material=Material(row["Material"]),
+        # Sin «Confirmo» la presentación sigue siendo una propuesta y no se envía.
+        presentation=presentation if row["Confirmo"] else None,
         user_edited=row["Material"] != original.proposed_material.value or bool(attributes),
         attributes=attributes,
     )
 
 
-def review(result: IdentificationResult) -> list[ConfirmedItem] | None:
-    """Tabla editable. Devuelve los materiales confirmados al pulsar el botón."""
+def _item_form(item: DetectedItem, centers: list[Center], key: str) -> dict:
+    """Ficha de un objeto: solo muestra las preguntas que el catálogo usa para su material."""
+    with st.container(border=True):
+        st.markdown(f"**{item.description}**")
+        st.caption(f"Evidencia: {item.visible_evidence}")
+        if questions := _questions(item):
+            st.caption(f"❓ {questions}")
+        materials = [m.value for m in Material]
+        material = st.selectbox("Material", materials, key=f"{key}-material",
+                                index=materials.index(item.proposed_material.value),
+                                format_func=lambda v: MATERIAL_UI.get(v, v))
+        presentations, checks, needs_resin = catalog_fields(centers, Material(material))
+        row = {"item_id": item.item_id, "Material": material, "Presentación": UNKNOWN,
+               "Símbolo": None, "¿Limpio?": UNKNOWN, "checks": {}}
+        if presentations:
+            options = [UNKNOWN, *presentations]
+            proposed = item.proposed_presentation
+            row["Presentación"] = st.selectbox(
+                "¿Qué es?", options, key=f"{key}-presentation-{material}",
+                index=options.index(proposed) if proposed in options else 0,
+                format_func=lambda v: PRESENTATION_UI.get(v, v.replace("_", " ").capitalize()))
+        if needs_resin:
+            row["Símbolo"] = st.number_input(
+                "Número dentro del símbolo de reciclaje (1–7)", min_value=1, max_value=7, step=1,
+                value=None, key=f"{key}-resin", placeholder="Déjalo vacío si no lo ves")
+        for name in checks:
+            answer = st.radio(CHECK_UI[name], list(YES_NO), horizontal=True, key=f"{key}-{name}-{material}")
+            if name == "clean":
+                row["¿Limpio?"] = answer
+            else:
+                row["checks"][name] = answer
+        row["Confirmo"] = st.checkbox("Revisé el material y lo que es", key=f"{key}-confirm")
+    return row
+
+
+def review(result: IdentificationResult, centers: list[Center], key: str = "review") -> list[ConfirmedItem] | None:
+    """Ficha por objeto. Devuelve los materiales confirmados al pulsar el botón."""
     st.subheader("2. Revisa lo que identificó Gemma")
-    st.caption("Corrige el material y marca «Confirmo» en cada objeto que revisaste. "
-               "Si ves el número dentro del símbolo de reciclaje, anótalo.")
-    rows = [{
-        "item_id": i.item_id,
-        "Objeto": i.description,
-        "Evidencia": i.visible_evidence,
-        "Material": i.proposed_material.value,
-        "Confirmo": False,
-        "Símbolo": None,
-        "¿Limpio?": UNKNOWN,
-        "Duda": _questions(i),
-    } for i in result.items]
-    edited = st.data_editor(
-        rows,
-        key="review_editor",
-        hide_index=True,
-        disabled=["item_id", "Objeto", "Evidencia", "Duda"],
-        column_order=["Objeto", "Evidencia", "Material", "Confirmo", "Símbolo", "¿Limpio?", "Duda"],
-        column_config={
-            "Material": st.column_config.SelectboxColumn(
-                "Material", options=[m.value for m in Material], required=True),
-            "Confirmo": st.column_config.CheckboxColumn("Confirmo", help="Revisé este objeto y su material"),
-            "Símbolo": st.column_config.NumberColumn("Símbolo (1–7)", min_value=1, max_value=7, step=1),
-            "¿Limpio?": st.column_config.SelectboxColumn("¿Limpio?", options=list(YES_NO), required=True),
-            "Duda": st.column_config.TextColumn("Pregunta pendiente"),
-        },
-        width="stretch",
-    )
-    unconfirmed = [r["Objeto"] for r in edited if not r["Confirmo"]]
+    st.caption("Corrige el material, indica qué es y responde lo que sepas. "
+               "«No sé» queda como dato pendiente: no lo inventamos.")
+    rows = [_item_form(i, centers, f"{key}-{i.item_id}") for i in result.items]
+    originals = {i.item_id: i for i in result.items}
+    unconfirmed = [originals[r["item_id"]].description for r in rows if not r["Confirmo"]]
     if unconfirmed:
         st.warning("Sin confirmar: " + ", ".join(unconfirmed)
                    + ". Puedes continuar; el centro no podrá decidir con datos sin confirmar.")
     if not st.button("Confirmar materiales", type="primary"):
         return None
-    originals = {i.item_id: i for i in result.items}
-    return [_confirmed_item(r, originals[r["item_id"]], result.analysis_id) for r in edited]
+    return [_confirmed_item(r, originals[r["item_id"]], result.analysis_id) for r in rows]
 
 
 def center_picker(centers: list[Center]) -> str | None:
@@ -160,6 +220,8 @@ def _result_card(r: ComparisonResult, name: str) -> None:
                                 for s in sources))
     elif r.rule_source_url and r.consulted_on:
         lines.append(f"[Fuente de la regla]({r.rule_source_url}) · consultada el {r.consulted_on:%d/%m/%Y}")
+    elif r.missing_data:
+        lines.append("Completa estos datos en el paso 2 y vuelve a generar el plan.")
     else:
         lines.append("Sin regla documentada para este material: confirma con el centro antes de llevarlo.")
     box("\n\n".join(lines))

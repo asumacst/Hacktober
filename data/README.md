@@ -6,10 +6,14 @@ con A y C antes de integrar. No contiene llamadas a Gemma, orquestador ni interf
 ## Archivos
 
 - `centers.json`: array de `Center`, compatible con `contracts.py`.
-- `examples/comparison_cases.json`: 14 entradas sintéticas y estados esperados.
+- `examples/comparison_cases.json`: 26 entradas sintéticas y estados esperados.
 - `examples/comparison_results.json`: resultados obtenidos al ejecutar esas entradas.
 - `src/reciclaclaro/logic/`: carga del catálogo, comparador y ejecución de ejemplos.
 - `tests/test_logic.py`: pruebas de decisiones y fallos de datos.
+- `CONFIRMACIONES_PARA_NOEL.md`: preguntas, tipos y valores necesarios en UI.
+- `quality_report.json`: perfil local reproducible del catálogo.
+- `examples/evaluation_report.json`: conteos de evaluación y huellas de los archivos evaluados.
+- `REVISION_ROL_B.md`: revisión de evidencia, alcance y limitaciones.
 
 Los ejemplos tienen `is_mock: true`: no son fotografías reales ni salidas de IA.
 Los resultados esperados fueron especificados separadamente de las funciones;
@@ -35,7 +39,7 @@ No se contactó al centro y no se garantiza disponibilidad o vigencia en tiempo 
 
 ## Alcance del catálogo
 
-16 reglas en tres categorías: plástico, cartón y vidrio. Es un subconjunto de lo
+18 reglas en tres categorías: plástico, cartón y vidrio. Es un subconjunto de lo
 publicado; la ausencia de una regla no constituye prohibición.
 
 | Material | Subconjunto modelado |
@@ -43,7 +47,7 @@ publicado; la ausencia de una regla no constituye prohibición.
 | Vidrio | Envases; exclusiones de espejo, ventana, puerta y mesa de vidrio. |
 | PET #1 | Botella; exclusiones de envases de huevos y ensalada. |
 | HDPE #2 | Solo botella; otras presentaciones permanecen pendientes. |
-| PP #5 | Tapita; envases genéricos quedan pendientes de aclaración. |
+| PP #5 | Tapita; exclusiones específicas para kétchup y sirope. Envases genéricos pendientes. |
 | Papel/cartón | Solo cajas de cartón corrugado; exclusiones por humedad, grasa o pintura. |
 
 No extender automáticamente aceptación de botella a cualquier envase del mismo
@@ -125,13 +129,26 @@ ni se cambiaron archivos de dependencias.
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) 'src')
-python -B -m pytest tests -q -p no:cacheprovider
-python -B -m reciclaclaro.logic.examples --output data/examples/comparison_results.json
+python -B -m pytest tests/test_contracts.py tests/test_logic.py tests/test_catalog_quality.py tests/test_evaluation.py -q -p no:cacheprovider
+python -B -m reciclaclaro.logic.examples --output data/examples/comparison_results.json --report data/examples/evaluation_report.json
+python -B -m reciclaclaro.logic.audit --output data/quality_report.json
 ```
 
-Perfil del catálogo comprobado: 1 centro, 16 identificadores de regla únicos y todas
+Perfil del catálogo comprobado: 1 centro, 18 identificadores de regla únicos y todas
 las reglas con referencias. Las fechas de publicación ausentes son datos no
 disponibles, no un motivo para rellenarlas por estimación.
+
+La carga rechaza campos desconocidos, claves JSON duplicadas, reglas duplicadas,
+condiciones de tipo incorrecto, códigos de resina incoherentes y referencias con
+fechas o URLs inválidas. Son validaciones locales: no comprueban disponibilidad
+web ni vigencia operativa. Los contratos compartidos permanecen sin cambios.
+
+La evaluación exige ambas dimensiones esperadas; un objeto de expectativas vacío
+no puede contar como acierto. Los casos que incluyen preguntas o reglas esperadas
+también verifican esos datos. El informe registra hashes SHA-256 del catálogo,
+corpus e implementación para reconocer qué archivos produjeron los resultados.
+Las huellas normalizan BOM y saltos CRLF/LF, para poder verificarlas tanto en
+Windows como en otros sistemas después de un checkout.
 
 ## Pendientes de integración
 

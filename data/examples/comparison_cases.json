@@ -107,7 +107,11 @@
     "expected": {
       "acceptance": "rejected",
       "preparation_status": "not_applicable"
-    }
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-vidrio-espejo"
+    ]
   },
   {
     "case_id": "material-desconocido",
@@ -163,7 +167,11 @@
     "expected": {
       "acceptance": "unknown",
       "preparation_status": "unknown"
-    }
+    },
+    "expected_missing_attributes": [
+      "resin_code"
+    ],
+    "expected_rule_ids": []
   },
   {
     "case_id": "carton-engrasado",
@@ -441,7 +449,11 @@
     "expected": {
       "acceptance": "unknown",
       "preparation_status": "unknown"
-    }
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-pp-envase-por-confirmar"
+    ]
   },
   {
     "case_id": "hdpe-botella",
@@ -518,5 +530,554 @@
       "acceptance": "accepted",
       "preparation_status": "ready"
     }
+  },
+  {
+    "case_id": "pp-envase_ketchup",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "pp-envase_ketchup",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "PP_5",
+      "presentation": "envase_ketchup",
+      "attributes": {
+        "material": {
+          "value": "PP_5",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "envase_ketchup",
+          "source": "user_confirmed"
+        },
+        "resin_code": {
+          "value": 5,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-pp-envase_ketchup"
+    ]
+  },
+  {
+    "case_id": "pp-envase_sirope",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "pp-envase_sirope",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "PP_5",
+      "presentation": "envase_sirope",
+      "attributes": {
+        "material": {
+          "value": "PP_5",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "envase_sirope",
+          "source": "user_confirmed"
+        },
+        "resin_code": {
+          "value": 5,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-pp-envase_sirope"
+    ]
+  },
+  {
+    "case_id": "vidrio-sin-presentacion",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "vidrio-sin-presentacion",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "vidrio",
+      "presentation": null,
+      "attributes": {
+        "material": {
+          "value": "vidrio",
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "boxed": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "expected_missing_attributes": [
+      "presentation"
+    ],
+    "expected_rule_ids": []
+  },
+  {
+    "case_id": "vidrio-sin-caja",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "vidrio-sin-caja",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "vidrio",
+      "presentation": "envase",
+      "attributes": {
+        "material": {
+          "value": "vidrio",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "envase",
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "boxed": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "action_required"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-vidrio-envase"
+    ]
+  },
+  {
+    "case_id": "vidrio-sin-confirmar-residuos",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "vidrio-sin-confirmar-residuos",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "vidrio",
+      "presentation": "envase",
+      "attributes": {
+        "material": {
+          "value": "vidrio",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "envase",
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": null,
+          "source": "unknown"
+        },
+        "boxed": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "unknown"
+    },
+    "expected_missing_attributes": [
+      "residue_free"
+    ],
+    "expected_rule_ids": [
+      "fas-car-vidrio-envase"
+    ]
+  },
+  {
+    "case_id": "vidrio-sin-separacion",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "vidrio-sin-separacion",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "vidrio",
+      "presentation": "envase",
+      "attributes": {
+        "material": {
+          "value": "vidrio",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "envase",
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "boxed": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": false,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "action_required"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-vidrio-envase"
+    ]
+  },
+  {
+    "case_id": "pet-codigo-contradictorio",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "pet-codigo-contradictorio",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "PET_1",
+      "presentation": "botella",
+      "attributes": {
+        "material": {
+          "value": "PET_1",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "botella",
+          "source": "user_confirmed"
+        },
+        "resin_code": {
+          "value": 2,
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "expected_missing_attributes": [
+      "resin_code"
+    ],
+    "expected_rule_ids": []
+  },
+  {
+    "case_id": "pet-sin-separacion-confirmada",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "pet-sin-separacion-confirmada",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "PET_1",
+      "presentation": "botella",
+      "attributes": {
+        "material": {
+          "value": "PET_1",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "botella",
+          "source": "user_confirmed"
+        },
+        "resin_code": {
+          "value": 1,
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": null,
+          "source": "unknown"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "unknown"
+    },
+    "expected_missing_attributes": [
+      "sorted_by_color"
+    ],
+    "expected_rule_ids": [
+      "fas-car-pet-botella"
+    ]
+  },
+  {
+    "case_id": "carton-sin-confirmar-grasa",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "carton-sin-confirmar-grasa",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "papel_carton",
+      "presentation": "caja_desarmada",
+      "attributes": {
+        "material": {
+          "value": "papel_carton",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "caja_desarmada",
+          "source": "user_confirmed"
+        },
+        "corrugated": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "wet": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "greasy": {
+          "value": null,
+          "source": "unknown"
+        },
+        "painted": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "expected_missing_attributes": [
+      "greasy"
+    ]
+  },
+  {
+    "case_id": "carton-mojado",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "carton-mojado",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "papel_carton",
+      "presentation": "caja_desarmada",
+      "attributes": {
+        "material": {
+          "value": "papel_carton",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "caja_desarmada",
+          "source": "user_confirmed"
+        },
+        "corrugated": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "wet": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "greasy": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "painted": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-carton-exclusion-wet"
+    ]
+  },
+  {
+    "case_id": "carton-pintado",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "carton-pintado",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "papel_carton",
+      "presentation": "caja_desarmada",
+      "attributes": {
+        "material": {
+          "value": "papel_carton",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "caja_desarmada",
+          "source": "user_confirmed"
+        },
+        "corrugated": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "wet": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "greasy": {
+          "value": false,
+          "source": "user_confirmed"
+        },
+        "painted": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": [
+      "fas-car-carton-exclusion-painted"
+    ]
+  },
+  {
+    "case_id": "vidrio-presentacion-no-documentada",
+    "is_mock": true,
+    "center_id": "car-fas-ciudad-del-saber",
+    "item": {
+      "item_id": "vidrio-presentacion-no-documentada",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "material": "vidrio",
+      "presentation": "vaso",
+      "attributes": {
+        "material": {
+          "value": "vidrio",
+          "source": "user_confirmed"
+        },
+        "presentation": {
+          "value": "vaso",
+          "source": "user_confirmed"
+        },
+        "clean": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "residue_free": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "boxed": {
+          "value": true,
+          "source": "user_confirmed"
+        },
+        "sorted_by_color": {
+          "value": true,
+          "source": "user_confirmed"
+        }
+      }
+    },
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "expected_missing_attributes": [],
+    "expected_rule_ids": []
   }
 ]
