@@ -16,13 +16,13 @@ Saber si algo "es reciclable" no basta: hay que saber cómo prepararlo y si el c
 | --- | --- |
 | Modelo | `gemma-4-26b-a4b-it` (respaldo: `gemma-4-31b-it`) |
 | Acceso | Gemini API (`generateContent` por HTTP, sin SDK adicional), clave en `GEMINI_API_KEY` |
-| Dónde | `src/reciclaclaro/ai/` (capa de IA, en construcción), llamada por `src/reciclaclaro/orchestrator.py` |
+| Dónde | `src/reciclaclaro/ai/client.py` (llamada a `generateContent`), invocada por `src/reciclaclaro/orchestrator.py` |
 | Qué hace | Propone objetos, materiales y preguntas pendientes a partir de la foto |
 | Qué no hace | No decide aceptación, no inventa centros, reglas, fuentes ni fechas |
 
 El motivo de la elección está en [docs/decisions.md](docs/decisions.md). La foto se envía a la Gemini API de Google para su análisis; no se guarda en el repositorio. El modo local con Ollama es opcional y no sustituye a la Gemini API.
 
-> **Estado actual:** la llamada real a Gemma 4 todavía no está integrada. Mientras tanto el orquestador devuelve una respuesta de ejemplo marcada como **MOCK** (`is_mock=True`) y la interfaz lo indica en pantalla.
+> **Modos de ejemplo:** con `RECICLACLARO_UI_MODE=mock` la interfaz usa respuestas guardadas, y con `RECICLACLARO_AI_MOCK=1` la capa de IA devuelve una muestra fija. En ambos casos el resultado sale marcado como **MOCK** (`is_mock=True`) y la interfaz lo indica. La demo del reto usa `live` y `0`: llamada real a Gemma 4.
 
 ## Instalación y uso
 
@@ -34,11 +34,11 @@ cd Hacktober
 python3 -m venv .venv && source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install --prefer-binary -r requirements.txt
-cp .env.example .env    # escribe tu GEMINI_API_KEY en .env
+cp .env.example .env
 streamlit run src/reciclaclaro/ui/app.py
 ```
 
-En Mac con procesador Intel, actualizar pip y usar `--prefer-binary` evita que `cryptography` intente compilarse.
+En `.env`: escribe tu `GEMINI_API_KEY` y cambia `RECICLACLARO_UI_MODE=live` para usar Gemma 4 real. Con el valor por defecto (`mock`) la app funciona sin clave, con respuestas de ejemplo.
 
 **Pruebas** (sin red ni cuota de Gemini):
 
@@ -69,7 +69,8 @@ Los datos que pasan entre capas están definidos en [`contracts.py`](src/recicla
 
 ## Demo y evaluación
 
-- **Comparador:** los 14 casos sintéticos de `data/examples/` dan el resultado esperado (14/14). Son entradas escritas a mano, no fotos ni salidas de IA.
+- **Comparador:** los 26 casos sintéticos de `data/examples/` dan el resultado esperado (26/26). Son entradas escritas a mano, no fotos ni salidas de IA.
+- **Pruebas automáticas:** pasan en la CI de GitHub Actions y desde un clon limpio, sin red ni cuota de Gemini.
 - **Modelo:** evaluación con fotos reales **no ejecutada** todavía.
 - Capturas de la demo: pendientes.
 
