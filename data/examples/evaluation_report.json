@@ -1,0 +1,39 @@
+{
+  "scope": "comparador deterministico; entradas sinteticas etiquetadas manualmente",
+  "is_mock": true,
+  "live_api_tested": false,
+  "is_benchmark": false,
+  "hash_normalization": "UTF-8 sin BOM; saltos de linea LF",
+  "catalog_sha256": "5f15110ec3b2e207c67d9fe2d79958772192dddd505be129bf5aa0216953d5eb",
+  "cases_sha256": "f7e2d6c3522b2dea0aefd3331de8709f014f46c2e377be7a251ffbd5f4a220b3",
+  "implementation_sha256": "5acd5281e077276e666ab7971706d03b9d71afd05f18c61a7948bca8ca9db533",
+  "total": 26,
+  "matched": 26,
+  "mismatched_case_ids": [],
+  "expected_acceptance_counts": {
+    "accepted": 12,
+    "rejected": 7,
+    "unknown": 7
+  },
+  "observed_acceptance_counts": {
+    "accepted": 12,
+    "rejected": 7,
+    "unknown": 7
+  },
+  "checks_passed": {
+    "acceptance": 26,
+    "missing_attributes": 15,
+    "preparation_status": 26,
+    "rule_ids": 14
+  },
+  "checks_total": {
+    "acceptance": 26,
+    "missing_attributes": 15,
+    "preparation_status": 26,
+    "rule_ids": 14
+  },
+  "limitations": [
+    "Muestra sintetica pequena; no mide Gemma ni impacto real.",
+    "Las fuentes publicadas no garantizan operacion actual del centro."
+  ]
+}

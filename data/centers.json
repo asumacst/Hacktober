@@ -441,6 +441,52 @@
             "updated_on": null
           }
         ]
+      },
+      {
+        "rule_id": "fas-car-pp-envase_ketchup",
+        "material": "PP_5",
+        "presentation": "envase_ketchup",
+        "status": "no_admitido",
+        "conditions": {
+          "resin_code": 5
+        },
+        "preparation_conditions": {},
+        "required_attributes": [],
+        "preparation": null,
+        "source_url": "https://faspanama.org/servicios/",
+        "consulted_on": "2026-10-31",
+        "references": [
+          {
+            "url": "https://faspanama.org/servicios/",
+            "entity": "FAS Panama",
+            "consulted_on": "2026-10-31",
+            "published_on": null,
+            "updated_on": null
+          }
+        ]
+      },
+      {
+        "rule_id": "fas-car-pp-envase_sirope",
+        "material": "PP_5",
+        "presentation": "envase_sirope",
+        "status": "no_admitido",
+        "conditions": {
+          "resin_code": 5
+        },
+        "preparation_conditions": {},
+        "required_attributes": [],
+        "preparation": null,
+        "source_url": "https://faspanama.org/servicios/",
+        "consulted_on": "2026-10-31",
+        "references": [
+          {
+            "url": "https://faspanama.org/servicios/",
+            "entity": "FAS Panama",
+            "consulted_on": "2026-10-31",
+            "published_on": null,
+            "updated_on": null
+          }
+        ]
       }
     ],
     "source_url": "https://faspanama.org/servicios/",
