@@ -9,10 +9,13 @@ from __future__ import annotations
 import hashlib
 import importlib
 import json
+import os
 import time
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 
+from dotenv import load_dotenv
 from pydantic import ValidationError
 
 from reciclaclaro.contracts import (
@@ -21,10 +24,16 @@ from reciclaclaro.contracts import (
 )
 from reciclaclaro.logic import compare_items, load_centers
 
-# Propuesta del Rol D, por confirmar con el Rol A (pendiente en docs/api-contract.md).
-MAX_IMAGE_BYTES = 5 * 1024 * 1024
-# Capa de IA del Rol A. Se espera que exponga identify(req) -> IdentificationResult.
+# Mismo límite que valida la capa de IA del Rol A.
+MAX_IMAGE_BYTES = 8 * 1024 * 1024
+# Capa de IA del Rol A: identify(req, *, mock=False) -> IdentificationResult.
 AI_MODULE = "reciclaclaro.ai"
+# Con RECICLACLARO_AI_MOCK=1 se pide a la IA su muestra etiquetada, sin red ni clave.
+AI_MOCK_ENV = "RECICLACLARO_AI_MOCK"
+ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
+
+# Las variables ya definidas en el entorno tienen prioridad sobre el archivo .env.
+load_dotenv(ENV_FILE, override=False)
 
 
 def _fail(category, message, retryable):
@@ -63,18 +72,19 @@ def identify(req: AnalysisRequest) -> IdentificationResult:
     if not req.image_bytes:
         raise _fail("entrada_invalida", "La foto está vacía. Sube otra imagen.", False)
     if len(req.image_bytes) > MAX_IMAGE_BYTES:
-        raise _fail("entrada_invalida", "La foto supera 5 MB. Sube una imagen más liviana.", False)
+        raise _fail("entrada_invalida", "La foto supera 8 MB. Sube una imagen más liviana.", False)
     try:
         ai = _load_ai()
     except ImportError as exc:
         raise _fail("api", "No se pudo cargar el módulo de IA. Revisa la instalación.", False) from exc
 
+    use_mock = os.getenv(AI_MOCK_ENV, "").strip().lower() in {"1", "true", "si", "sí"}
     started = time.monotonic()
     if ai is None:
         result = _mock_identification(req)
     else:
         try:
-            result = ai.identify(req)
+            result = ai.identify(req, mock=True) if use_mock else ai.identify(req)
         except ReciclaClaroError:
             raise
         except TimeoutError as exc:
@@ -86,8 +96,9 @@ def identify(req: AnalysisRequest) -> IdentificationResult:
     if not result.items:
         raise _fail("sin_datos", "No se identificaron objetos. Prueba con otra foto más cercana.", True)
 
-    # Campos que rellena el código, nunca el modelo.
-    analysis_id = uuid.uuid4().hex
+    # Campos que rellena el código, nunca el modelo. Se respeta el analysis_id
+    # que ya generó la capa de IA y se propaga a todos los objetos.
+    analysis_id = result.analysis_id or uuid.uuid4().hex
     return result.model_copy(update={
         "items": [item.model_copy(update={"analysis_id": analysis_id}) for item in result.items],
         "analysis_id": analysis_id,

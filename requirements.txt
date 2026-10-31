@@ -3,6 +3,5 @@
 
 pydantic          # contratos (src/reciclaclaro/contracts.py)
 streamlit         # interfaz (src/reciclaclaro/ui/)
-google-genai      # cliente de la Gemini API (Rol A)
 python-dotenv     # carga de .env en local
 pytest            # pruebas de cada capa

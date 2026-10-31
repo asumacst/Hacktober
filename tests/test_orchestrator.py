@@ -1,6 +1,7 @@
 """Orquestador: validación, errores y armado del plan, sin red ni cuota de Gemini."""
 
 import types
+from pathlib import Path
 
 import pytest
 
@@ -32,9 +33,19 @@ def error_of(call, *args):
     return exc.value.error
 
 
+@pytest.fixture(autouse=True)
+def real_ai_mode(monkeypatch):
+    # El .env de quien ejecuta las pruebas no debe cambiar su resultado.
+    monkeypatch.delenv(orchestrator.AI_MOCK_ENV, raising=False)
+
+
 @pytest.fixture
 def no_ai(monkeypatch):
     monkeypatch.setattr(orchestrator, "_load_ai", lambda: None)
+
+
+def test_env_file_is_read_from_repository_root():
+    assert orchestrator.ENV_FILE == Path(__file__).resolve().parents[1] / ".env"
 
 
 # --- identify ------------------------------------------------------------------
@@ -53,7 +64,7 @@ def test_each_identification_gets_its_own_analysis_id(no_ai):
 
 
 @pytest.mark.parametrize("data", [b"", b"0" * (orchestrator.MAX_IMAGE_BYTES + 1)],
-                         ids=["vacia", "mas-de-5-MB"])
+                         ids=["vacia", "mas-del-limite"])
 def test_rejects_empty_or_oversized_photo_without_retry(no_ai, data):
     error = error_of(orchestrator.identify, request(data))
     assert (error.category, error.retryable) == ("entrada_invalida", False)
@@ -67,18 +78,39 @@ def test_rejects_something_that_is_not_a_request():
     assert error_of(orchestrator.identify, {"image_bytes": PNG}).category == "entrada_invalida"
 
 
-def test_uses_ai_layer_and_overwrites_code_fields(monkeypatch):
-    from_model = IdentificationResult(
+def ai_result(analysis_id=None):
+    return IdentificationResult(
         items=[DetectedItem(item_id="obj-1", description="Lata", proposed_material=Material.ALUMINIO,
-                            visible_evidence="Brillo metálico", analysis_id="inventado")],
-        model_id="gemma-4-26b-a4b-it", backend="local", latency_ms=999_999, analysis_id="inventado",
+                            visible_evidence="Brillo metálico")],
+        model_id="gemma-4-26b-a4b-it", backend="local", latency_ms=999_999, analysis_id=analysis_id,
     )
-    use_ai(monkeypatch, lambda req: from_model)
+
+
+def test_uses_ai_layer_and_keeps_its_analysis_id(monkeypatch):
+    use_ai(monkeypatch, lambda req: ai_result("id-de-la-ia"))
     result = orchestrator.identify(request())
     assert not result.is_mock and result.model_id == "gemma-4-26b-a4b-it"
     assert result.backend == "gemini_api"
-    assert result.analysis_id != "inventado" and result.items[0].analysis_id == result.analysis_id
+    assert result.analysis_id == "id-de-la-ia" and result.items[0].analysis_id == "id-de-la-ia"
     assert result.latency_ms < 999_999
+
+
+def test_generates_analysis_id_when_ai_layer_gives_none(monkeypatch):
+    use_ai(monkeypatch, lambda req: ai_result(None))
+    result = orchestrator.identify(request())
+    assert result.analysis_id and result.items[0].analysis_id == result.analysis_id
+
+
+@pytest.mark.parametrize("value, expected", [("1", True), ("sí", True), ("0", False), ("", False)])
+def test_mock_flag_asks_ai_layer_for_its_labeled_sample(monkeypatch, value, expected):
+    calls = []
+    def identify(req, mock=False):
+        calls.append(mock)
+        return ai_result("a1")
+    use_ai(monkeypatch, identify)
+    monkeypatch.setenv(orchestrator.AI_MOCK_ENV, value)
+    orchestrator.identify(request())
+    assert calls == [expected]
 
 
 @pytest.mark.parametrize("raised, category", [(TimeoutError(), "timeout"), (RuntimeError("caída"), "api")])

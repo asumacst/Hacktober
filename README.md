@@ -15,7 +15,7 @@ Saber si algo "es reciclable" no basta: hay que saber cómo prepararlo y si el c
 | | |
 | --- | --- |
 | Modelo | `gemma-4-26b-a4b-it` (respaldo: `gemma-4-31b-it`) |
-| Acceso | Gemini API, con el SDK `google-genai` |
+| Acceso | Gemini API (`generateContent` por HTTP, sin SDK adicional), clave en `GEMINI_API_KEY` |
 | Dónde | `src/reciclaclaro/ai/` (capa de IA, en construcción), llamada por `src/reciclaclaro/orchestrator.py` |
 | Qué hace | Propone objetos, materiales y preguntas pendientes a partir de la foto |
 | Qué no hace | No decide aceptación, no inventa centros, reglas, fuentes ni fechas |
