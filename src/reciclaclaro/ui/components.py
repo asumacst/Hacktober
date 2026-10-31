@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+from html import escape
+
 import streamlit as st
 
 from reciclaclaro.contracts import (
     AppError, Center, ComparisonResult, ConfirmedAttribute, ConfirmedItem, DeliveryPlan,
     DetectedItem, IdentificationResult, Material,
 )
+from reciclaclaro.ui import theme
 
 MAX_MB = 8
 UNKNOWN = "No sé"
@@ -17,23 +20,39 @@ PREPARATION_UI = {
     "action_required": "Requiere preparación",
     "unknown": "Preparación sin confirmar",
 }
+# Icono, texto, color de Streamlit y sufijo de la clave de tarjeta (color del borde en theme.py).
 STATUS_UI = {
-    "aceptado": ("✅", "Aceptado", st.success),
-    "no_admitido": ("⛔", "No admitido", st.error),
-    "pendiente": ("❓", "Pendiente de confirmar", st.warning),
+    "aceptado": (":material/check_circle:", "Aceptado", "green", "ok"),
+    "no_admitido": (":material/block:", "No admitido", "red", "no"),
+    "pendiente": (":material/help:", "Pendiente de confirmar", "orange", "pending"),
 }
+STEPS = ("Foto", "Revisión", "Centro", "Plan")
 BACKEND_LABEL = {"gemini_api": "Gemini API", "local": "Local (Ollama)"}
 
 
 def header() -> None:
-    st.title("♻️ ReciclaClaro")
-    st.caption("Fotografía tus residuos, confirma los materiales y descubre cómo entregarlos "
-               "en un centro de acopio de Panamá.")
+    st.html(
+        f'<header class="rc-hero"><img src="{theme.data_uri("logo-mark.svg")}" alt="">'
+        '<div><h1>Recicla<span>Claro</span></h1>'
+        "<p>Fotografía tus residuos, confirma los materiales y descubre cómo entregarlos "
+        "en un centro de acopio de Panamá.</p></div></header>"
+    )
+
+
+def progress(slot, step: int) -> None:
+    """Indicador visual de los cuatro pasos existentes; no navega ni cambia el flujo."""
+    items = []
+    for n, name in enumerate(STEPS, start=1):
+        cls = "done" if n < step else "now" if n == step else ""
+        current = ' aria-current="step"' if n == step else ""
+        mark = "✓" if n < step else str(n)
+        items.append(f'<li class="{cls}"{current}><b>{mark}</b><span>{name}</span></li>')
+    slot.html(f'<ol class="rc-steps" aria-label="Progreso">{"".join(items)}</ol>')
 
 
 def mock_banner() -> None:
     st.info("**Modo de ejemplo (MOCK):** estas respuestas son datos de prueba, no un análisis real de Gemma.",
-            icon="🧪")
+            icon=":material/science:")
 
 
 def uploader() -> tuple[bytes, str] | None:
@@ -130,11 +149,14 @@ def _confirmed_item(row: dict, original: DetectedItem, analysis_id: str | None) 
 
 def _item_form(item: DetectedItem, centers: list[Center], key: str) -> dict:
     """Ficha de un objeto: solo muestra las preguntas que el catálogo usa para su material."""
-    with st.container(border=True):
-        st.markdown(f"**{item.description}**")
-        st.caption(f"Evidencia: {item.visible_evidence}")
+    with st.container(border=True, key=f"rc-item-{key}"):
+        with st.container(horizontal=True, vertical_alignment="center"):
+            st.markdown(f"**{item.description}**")
+            st.badge(f"Gemma propone: {MATERIAL_UI.get(item.proposed_material.value)}",
+                     icon=":material/auto_awesome:", color="gray")
+        st.caption(f":material/visibility: Evidencia: {item.visible_evidence}")
         if questions := _questions(item):
-            st.caption(f"❓ {questions}")
+            st.caption(f":material/help: {questions}")
         materials = [m.value for m in Material]
         material = st.selectbox("Material", materials, key=f"{key}-material",
                                 index=materials.index(item.proposed_material.value),
@@ -185,9 +207,11 @@ def center_picker(centers: list[Center]) -> str | None:
         st.warning("Todavía no hay centros documentados en el catálogo.")
         return None
     by_id = {c.center_id: c for c in centers}
-    center_id = st.selectbox("Centro de acopio", list(by_id), format_func=lambda cid: by_id[cid].name)
-    c = by_id[center_id]
-    st.caption(f"Reglas consultadas el {c.consulted_on:%d/%m/%Y} · [Fuente]({c.source_url})")
+    with st.container(border=True, key="rc-center"):
+        center_id = st.selectbox("Centro de acopio", list(by_id), format_func=lambda cid: by_id[cid].name)
+        c = by_id[center_id]
+        st.caption(f":material/event: Reglas consultadas el {c.consulted_on:%d/%m/%Y} · "
+                   f":material/link: [Fuente]({c.source_url})")
     return center_id
 
 
@@ -195,20 +219,20 @@ def plan(p: DeliveryPlan, names: dict[str, str]) -> None:
     st.subheader(f"4. Tu plan para {p.center.name}")
     counts = {s: sum(r.status == s for r in p.results) for s in STATUS_UI}
     cols = st.columns(3)
-    for col, (status, (icon, label, _)) in zip(cols, STATUS_UI.items()):
-        col.metric(f"{icon} {label}", counts[status])
+    for col, (status, (icon, label, color, _)) in zip(cols, STATUS_UI.items()):
+        col.metric(f":{color}[{icon}] {label}", counts[status])
     for r in p.results:
         _result_card(r, names.get(r.item_id, r.item_id))
     st.caption("Plan basado en el catálogo documentado. No garantiza disponibilidad en tiempo real.")
 
 
 def _result_card(r: ComparisonResult, name: str) -> None:
-    icon, label, box = STATUS_UI[r.status]
+    icon, label, color, tone = STATUS_UI[r.status]
     if r.acceptance == "accepted":
         label = f"{label} · {PREPARATION_UI[r.preparation_status]}"
         if r.preparation_status == "action_required":
-            icon, box = "🧽", st.info
-    lines = [f"**{icon} {name} — {label}**", r.reason]
+            icon, color, tone = ":material/cleaning_services:", "blue", "prep"
+    lines = [f"**:{color}[{icon}] {name} — :{color}[{label}]**", r.reason]
     if r.preparation_actions:
         lines.append("**Antes de llevarlo:**\n" + "\n".join(f"- {a}" for a in r.preparation_actions))
     elif r.preparation:
@@ -225,17 +249,21 @@ def _result_card(r: ComparisonResult, name: str) -> None:
         lines.append("Completa estos datos en el paso 2 y vuelve a generar el plan.")
     else:
         lines.append("Sin regla documentada para este material: confirma con el centro antes de llevarlo.")
-    box("\n\n".join(lines))
+    with st.container(border=True, key=f"rc-result-{tone}-{r.item_id}"):
+        st.markdown("\n\n".join(lines))
 
 
 def error(err: AppError) -> bool:
     """Muestra el error. Devuelve True si la persona pide reintentar."""
-    st.error(err.message, icon="⚠️")
+    st.error(err.message, icon=":material/error:")
     return err.retryable and st.button("Reintentar")
 
 
 def model_footer(result: IdentificationResult) -> None:
-    st.divider()
-    st.caption(f"Powered by Gemma 4 via Gemini API · Modelo: `{result.model_id}` · "
-               f"Proveedor: {BACKEND_LABEL[result.backend]} · {result.latency_ms / 1000:.1f} s"
-               + (" · respuesta de ejemplo" if result.is_mock else ""))
+    mock = '<span class="rc-mock">respuesta de ejemplo</span>' if result.is_mock else ""
+    st.html(
+        '<footer class="rc-footer"><span>Powered by Gemma 4 via Gemini API</span>'
+        f"<span>Modelo: <code>{escape(result.model_id)}</code></span>"
+        f"<span>Proveedor: {BACKEND_LABEL[result.backend]}</span>"
+        f"<span>{result.latency_ms / 1000:.1f} s</span>{mock}</footer>"
+    )
