@@ -1,0 +1,5 @@
+{
+  "category": "api",
+  "message": "MOCK — Simulación de fallo temporal de API. Puedes intentar el análisis otra vez.",
+  "retryable": true
+}

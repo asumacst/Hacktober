@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "item_id": "obj-1",
+      "description": "MOCK — Envase blanco sin símbolo legible",
+      "proposed_material": "desconocido",
+      "visible_evidence": "Ejemplo MOCK: no se distingue la composición",
+      "pending_question": "¿Qué número aparece en el símbolo de reciclaje? Confírmalo o añade otra foto."
+    }
+  ],
+  "model_id": "MOCK — sin llamada a Gemma",
+  "backend": "gemini_api",
+  "latency_ms": 0,
+  "is_mock": true
+}

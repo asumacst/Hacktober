@@ -1,0 +1,149 @@
+- generic [ref=f2e2]:
+  - link "Skip to main content" [ref=f2e3] [cursor=pointer]:
+    - /url: "#stMain"
+  - region "Sidebar" [ref=f2e7]:
+    - generic [ref=f2e12]:
+      - heading "Ajustes" [level=2] [ref=f2e16]
+      - generic [ref=f2e18]:
+        - generic [ref=f2e19]:
+          - paragraph [ref=f2e22]: Proveedor de Gemma 4
+          - button "Help for Proveedor de Gemma 4" [ref=f2e26] [cursor=pointer]
+        - radiogroup "Proveedor de Gemma 4" [ref=f2e30]:
+          - generic [ref=f2e32] [cursor=pointer]:
+            - radio "Gemini API" [checked] [ref=f2e34]
+            - paragraph [ref=f2e39]: Gemini API
+          - generic [ref=f2e41] [cursor=pointer]:
+            - radio "Local (Ollama)" [ref=f2e43]
+            - paragraph [ref=f2e47]: Local (Ollama)
+  - generic [ref=f2e4]:
+    - banner [ref=f2e50]:
+      - generic [ref=f2e53]:
+        - button "Deploy" [ref=f2e55] [cursor=pointer]
+        - button "Main menu" [ref=f2e59] [cursor=pointer]
+    - main [ref=f2e5]:
+      - generic [ref=f2e63]:
+        - heading "♻️ ReciclaClaro" [level=1] [ref=f2e68]:
+          - text: ♻️ ReciclaClaro
+          - generic [ref=f2e69]:
+            - link "Link to heading":
+              - /url: "#recicla-claro"
+        - paragraph [ref=f2e74]: Fotografía tus residuos, confirma los materiales y descubre cómo entregarlos en un centro de acopio de Panamá.
+        - heading "1. Sube una foto" [level=3] [ref=f2e79]:
+          - text: 1. Sube una foto
+          - generic [ref=f2e80]:
+            - link "Link to heading":
+              - /url: "#1-sube-una-foto"
+        - generic [ref=f2e82]:
+          - paragraph [ref=f2e86]: Foto de tus residuos (pocos objetos, buena luz, símbolos visibles)
+          - region "Foto de tus residuos (pocos objetos, buena luz, símbolos visibles)" [ref=f2e87] [cursor=pointer]:
+            - button "file upload"
+            - generic [ref=f2e109]:
+              - generic "foto.png, 79.0B" [ref=f2e112]:
+                - generic [ref=f2e117]:
+                  - generic "foto.png" [ref=f2e118]
+                  - generic [ref=f2e119]: 79.0B
+                - button "Remove foto.png" [ref=f2e121]
+              - button "Add files" [ref=f2e125]:
+                - generic [ref=f2e127]:
+                  - generic [ref=f2e128]: add icon
+                  - generic [aria-hidden] [ref=f2e130]: add
+        - button "Fullscreen" [ref=f2e138] [cursor=pointer]
+        - button [active] [ref=f2e147] [cursor=pointer]:
+          - paragraph [ref=f2e152]: Identificar materiales
+        - group [ref=f2e155]:
+          - generic [ref=f2e157] [cursor=pointer]:
+            - generic [aria-hidden] [ref=f2e159]: check
+            - paragraph [ref=f2e162]: Análisis terminado
+        - status [ref=f2e165]:
+          - generic [ref=f2e167]:
+            - generic [aria-hidden] [ref=f2e170]: 🧪
+            - paragraph [ref=f2e172]:
+              - strong [ref=f2e173]: "Modo de ejemplo (MOCK):"
+              - text: estas respuestas son datos de prueba, no un análisis real de Gemma.
+        - heading "2. Revisa lo que identificó Gemma" [level=3] [ref=f2e178]:
+          - text: 2. Revisa lo que identificó Gemma
+          - generic [ref=f2e179]:
+            - link "Link to heading":
+              - /url: "#2-revisa-lo-que-identifico-gemma"
+        - paragraph [ref=f2e184]: "Corrige el material, indica qué es y responde lo que sepas. «No sé» queda como dato pendiente: no lo inventamos."
+        - generic [ref=f2e186]:
+          - paragraph [ref=f2e191]:
+            - strong [ref=f2e192]: MOCK — Botella con símbolo PET 1 visible
+          - paragraph [ref=f2e197]: "Evidencia: Ejemplo MOCK: símbolo 1 en la base"
+          - generic [ref=f2e199]:
+            - paragraph [ref=f2e203]: Material
+            - group [ref=f2e205]:
+              - combobox "Material" [ref=f2e206]: Plástico PET (1)
+              - button "Open" [ref=f2e207] [cursor=pointer]
+          - generic [ref=f2e212]:
+            - paragraph [ref=f2e216]: ¿Qué es?
+            - group [ref=f2e218]:
+              - combobox "¿Qué es?" [ref=f2e219]: No sé
+              - button "Open" [ref=f2e220] [cursor=pointer]
+          - generic [ref=f2e225]:
+            - paragraph [ref=f2e229]: Número dentro del símbolo de reciclaje (1–7)
+            - generic [ref=f2e231]:
+              - spinbutton "Número dentro del símbolo de reciclaje (1–7)" [ref=f2e232]
+              - generic [ref=f2e233]:
+                - button "Decrement" [disabled] [ref=f2e234]
+                - button "Increment" [disabled] [ref=f2e237]
+          - generic [ref=f2e241]:
+            - paragraph [ref=f2e245]: ¿Está limpio?
+            - radiogroup "¿Está limpio?" [ref=f2e246]:
+              - generic [ref=f2e248] [cursor=pointer]:
+                - radio "No sé" [checked] [ref=f2e250]
+                - paragraph [ref=f2e255]: No sé
+              - generic [ref=f2e257] [cursor=pointer]:
+                - radio "Sí" [ref=f2e259]
+                - paragraph [ref=f2e263]: Sí
+              - generic [ref=f2e265] [cursor=pointer]:
+                - radio "No" [ref=f2e267]
+                - paragraph [ref=f2e271]: "No"
+          - generic [ref=f2e273]:
+            - paragraph [ref=f2e277]: ¿Sin restos de comida u otros residuos?
+            - radiogroup "¿Sin restos de comida u otros residuos?" [ref=f2e278]:
+              - generic [ref=f2e280] [cursor=pointer]:
+                - radio "No sé" [checked] [ref=f2e282]
+                - paragraph [ref=f2e287]: No sé
+              - generic [ref=f2e289] [cursor=pointer]:
+                - radio "Sí" [ref=f2e291]
+                - paragraph [ref=f2e295]: Sí
+              - generic [ref=f2e297] [cursor=pointer]:
+                - radio "No" [ref=f2e299]
+                - paragraph [ref=f2e303]: "No"
+          - generic [ref=f2e305]:
+            - paragraph [ref=f2e309]: ¿Lo separaste por color?
+            - radiogroup "¿Lo separaste por color?" [ref=f2e310]:
+              - generic [ref=f2e312] [cursor=pointer]:
+                - radio "No sé" [checked] [ref=f2e314]
+                - paragraph [ref=f2e319]: No sé
+              - generic [ref=f2e321] [cursor=pointer]:
+                - radio "Sí" [ref=f2e323]
+                - paragraph [ref=f2e327]: Sí
+              - generic [ref=f2e329] [cursor=pointer]:
+                - radio "No" [ref=f2e331]
+                - paragraph [ref=f2e335]: "No"
+          - generic [ref=f2e338] [cursor=pointer]:
+            - checkbox "Revisé el material y lo que es" [ref=f2e340]
+            - paragraph [ref=f2e346]: Revisé el material y lo que es
+        - generic [ref=f2e348]:
+          - paragraph [ref=f2e353]:
+            - strong [ref=f2e354]: MOCK — Lata de aluminio identificada
+          - paragraph [ref=f2e359]: "Evidencia: Ejemplo MOCK: etiqueta de aluminio visible"
+          - generic [ref=f2e361]:
+            - paragraph [ref=f2e365]: Material
+            - group [ref=f2e367]:
+              - combobox "Material" [ref=f2e368]: Aluminio
+              - button "Open" [ref=f2e369] [cursor=pointer]
+          - generic [ref=f2e375] [cursor=pointer]:
+            - checkbox "Revisé el material y lo que es" [ref=f2e377]
+            - paragraph [ref=f2e383]: Revisé el material y lo que es
+        - alert [ref=f2e386]:
+          - paragraph [ref=f2e390]: "Sin confirmar: MOCK — Botella con símbolo PET 1 visible, MOCK — Lata de aluminio identificada. Puedes continuar; el centro no podrá decidir con datos sin confirmar."
+        - button [ref=f2e393] [cursor=pointer]:
+          - paragraph [ref=f2e398]: Confirmar materiales
+        - separator [ref=f2e403]
+        - paragraph [ref=f2e408]:
+          - text: "Powered by Gemma 4 via Gemini API · Modelo:"
+          - code [ref=f2e409]: MOCK — sin llamada a Gemma
+          - text: "· Proveedor: Gemini API · 0.0 s · respuesta de ejemplo"

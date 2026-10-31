@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "item_id": "obj-1",
+      "description": "MOCK — Botella con símbolo PET 1 visible",
+      "proposed_material": "PET_1",
+      "visible_evidence": "Ejemplo MOCK: símbolo 1 en la base",
+      "pending_question": null
+    },
+    {
+      "item_id": "obj-2",
+      "description": "MOCK — Lata de aluminio identificada",
+      "proposed_material": "aluminio",
+      "visible_evidence": "Ejemplo MOCK: etiqueta de aluminio visible",
+      "pending_question": null
+    }
+  ],
+  "model_id": "MOCK — sin llamada a Gemma",
+  "backend": "gemini_api",
+  "latency_ms": 0,
+  "is_mock": true
+}
