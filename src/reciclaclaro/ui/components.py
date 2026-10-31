@@ -220,6 +220,8 @@ def _result_card(r: ComparisonResult, name: str) -> None:
                                 for s in sources))
     elif r.rule_source_url and r.consulted_on:
         lines.append(f"[Fuente de la regla]({r.rule_source_url}) · consultada el {r.consulted_on:%d/%m/%Y}")
+    elif r.missing_data:
+        lines.append("Completa estos datos en el paso 2 y vuelve a generar el plan.")
     else:
         lines.append("Sin regla documentada para este material: confirma con el centro antes de llevarlo.")
     box("\n\n".join(lines))
