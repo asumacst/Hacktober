@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "item_id": "obj-1",
+      "description": "MOCK — Frasco de vidrio confirmado para el ejemplo",
+      "proposed_material": "vidrio",
+      "visible_evidence": "Ejemplo MOCK: etiqueta de vidrio legible",
+      "pending_question": null
+    }
+  ],
+  "model_id": "MOCK — sin llamada a Gemma",
+  "backend": "gemini_api",
+  "latency_ms": 0,
+  "is_mock": true
+}
