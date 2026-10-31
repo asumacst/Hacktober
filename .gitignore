@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Credenciales y configuración local (nunca se versionan)
+.env
+.streamlit/secrets.toml
+
+# Sistema operativo y editores
+.DS_Store
+.idea/
+.vscode/
+
+# Claude Code: la configuración local no se comparte; .claude/agents/ sí
+.claude/settings.local.json
