@@ -1,0 +1,594 @@
+[
+  {
+    "case_id": "vidrio-listo",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "ready"
+    },
+    "result": {
+      "item_id": "vidrio-listo",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "ready",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-envase",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-con-comida",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "action_required"
+    },
+    "result": {
+      "item_id": "vidrio-con-comida",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "action_required",
+      "preparation_actions": [
+        "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde."
+      ],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-envase",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "espejo",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "espejo",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: espejo.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-espejo",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "material-desconocido",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "desconocido",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "Faltan datos confirmados del objeto.",
+      "preparation": null,
+      "rule_source_url": null,
+      "consulted_on": null,
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "material",
+          "question": "Que material puedes confirmar para este objeto?"
+        },
+        {
+          "attribute": "presentation",
+          "question": "Es una botella, envase, espejo, caja u otra presentacion?"
+        }
+      ],
+      "rule_references": []
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pet-sin-codigo",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "pet-sin-codigo",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "Falta confirmar el codigo de resina o contradice el material.",
+      "preparation": null,
+      "rule_source_url": null,
+      "consulted_on": null,
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "resin_code",
+          "question": "Que numero aparece en el simbolo del plastico?"
+        }
+      ],
+      "rule_references": []
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "carton-engrasado",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "carton-engrasado",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: carton con grasa.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-carton-exclusion-greasy",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pet-botella-lista",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "ready"
+    },
+    "result": {
+      "item_id": "pet-botella-lista",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; separar PET por transparente, azul y verde en el recipiente correspondiente.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "ready",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pet-botella",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pet-envase-huevos",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable"
+    },
+    "result": {
+      "item_id": "pet-envase-huevos",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "no_admitido",
+      "reason": "El centro excluye explicitamente esta presentacion o condicion: envase huevos.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "rejected",
+      "preparation_status": "not_applicable",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pet-envase_huevos",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "carton-listo",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "ready"
+    },
+    "result": {
+      "item_id": "carton-listo",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Desarmar la caja y colocar el carton limpio y sin residuos en el recipiente correspondiente.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "ready",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-carton-caja_desarmada",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "carton-por-desarmar",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "action_required"
+    },
+    "result": {
+      "item_id": "carton-por-desarmar",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Desarmar la caja y colocar el carton limpio y sin residuos en el recipiente correspondiente.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "action_required",
+      "preparation_actions": [
+        "Desarmar la caja y colocar el carton limpio y sin residuos en el recipiente correspondiente."
+      ],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-carton-caja",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "vidrio-limpieza-sin-confirmar",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "vidrio-limpieza-sin-confirmar",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Limpiar y retirar residuos; entregar en cajas separado por transparente, ambar y verde.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [
+        {
+          "attribute": "clean",
+          "question": "El objeto esta limpio?"
+        }
+      ],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-vidrio-envase",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pp-envase-conflicto",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "unknown",
+      "preparation_status": "unknown"
+    },
+    "result": {
+      "item_id": "pp-envase-conflicto",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "pendiente",
+      "reason": "La evidencia requiere aclaracion antes de decidir.",
+      "preparation": null,
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "unknown",
+      "preparation_status": "unknown",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pp-envase-por-confirmar",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "hdpe-botella",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "ready"
+    },
+    "result": {
+      "item_id": "hdpe-botella",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Entregar limpio y sin residuos.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "ready",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-hdpe-botella",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  },
+  {
+    "case_id": "pp-tapita",
+    "is_mock": true,
+    "expected": {
+      "acceptance": "accepted",
+      "preparation_status": "ready"
+    },
+    "result": {
+      "item_id": "pp-tapita",
+      "center_id": "car-fas-ciudad-del-saber",
+      "status": "aceptado",
+      "reason": "Aceptacion documentada para el material y la presentacion.",
+      "preparation": "Entregar limpio y sin residuos.",
+      "rule_source_url": "https://faspanama.org/servicios/",
+      "consulted_on": "2026-10-31",
+      "analysis_id": "ejemplo-sintetico-1",
+      "revision": 0,
+      "acceptance": "accepted",
+      "preparation_status": "ready",
+      "preparation_actions": [],
+      "missing_data": [],
+      "rule_references": [
+        {
+          "rule_id": "fas-car-pp-tapita",
+          "sources": [
+            {
+              "url": "https://faspanama.org/servicios/",
+              "entity": "FAS Panama",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            },
+            {
+              "url": "https://ciudaddelsaber.org/centro-de-acopio-de-reciclables-car",
+              "entity": "Fundacion Ciudad del Saber",
+              "consulted_on": "2026-10-31",
+              "published_on": null,
+              "updated_on": null
+            }
+          ]
+        }
+      ]
+    },
+    "matches_expected": true
+  }
+]
