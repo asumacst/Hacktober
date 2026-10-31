@@ -66,6 +66,7 @@ MATERIAL_UI = {
 PRESENTATION_UI = {
     "botella": "Botella", "envase": "Envase o frasco", "tapita": "Tapita",
     "envase_huevos": "Envase de huevos", "envase_ensalada": "Envase de ensalada",
+    "envase_ketchup": "Envase de ketchup", "envase_sirope": "Envase de sirope",
     "caja": "Caja armada", "caja_desarmada": "Caja desarmada", "espejo": "Espejo",
     "ventana": "Ventana", "puerta_vidrio": "Puerta de vidrio", "mesa_vidrio": "Mesa de vidrio",
 }
