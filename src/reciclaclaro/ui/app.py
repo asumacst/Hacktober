@@ -81,6 +81,7 @@ if photo is None:
 image_bytes, mime = photo
 if ss.image_bytes != image_bytes:
     state.on_new_photo(ss, image_bytes, mime)
+state.on_backend(ss, backend)
 
 if st.button("Identificar materiales", type="primary", disabled=ss.identification is not None):
     with st.status("Gemma está analizando la foto…", expanded=False) as status:
@@ -101,11 +102,29 @@ if result is None:
 if result.is_mock:
     ui.mock_banner()
 
-centers = call(api.list_centers) or []
-confirmed = ui.review(result, centers, key=state.fingerprint(image_bytes, [], None)[:12])
-if confirmed is not None:
-    ss.confirmed = confirmed
+centers = call(api.list_centers)
+if centers is None:  # fallo al cargar el catálogo: distinto de un catálogo vacío
+    if ui.error(ss.error):
+        ss.error = None
+        st.rerun()
+    ui.model_footer(result)
+    st.stop()
+if not centers:
+    st.warning("El catálogo no tiene centros de acopio documentados todavía. "
+               "Sin un centro no podemos comparar tus materiales.")
+    ui.model_footer(result)
+    st.stop()
+
+# La clave incluye foto y proveedor para no arrastrar respuestas de otro análisis.
+review_key = f"{state.fingerprint(image_bytes, [], None)[:12]}-{backend}"
+draft, submitted = ui.review(result, centers, key=review_key)
+if submitted:
+    ss.confirmed = draft
 if ss.confirmed is None:
+    ui.model_footer(result)
+    st.stop()
+if state.has_pending_edits(ss, draft):
+    st.warning("Tienes cambios sin confirmar. Pulsa «Confirmar materiales» para generar un plan actualizado.")
     ui.model_footer(result)
     st.stop()
 

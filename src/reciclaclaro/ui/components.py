@@ -162,8 +162,9 @@ def _item_form(item: DetectedItem, centers: list[Center], key: str) -> dict:
     return row
 
 
-def review(result: IdentificationResult, centers: list[Center], key: str = "review") -> list[ConfirmedItem] | None:
-    """Ficha por objeto. Devuelve los materiales confirmados al pulsar el botón."""
+def review(result: IdentificationResult, centers: list[Center],
+           key: str = "review") -> tuple[list[ConfirmedItem], bool]:
+    """Ficha por objeto. Devuelve el borrador actual y si se pulsó «Confirmar materiales»."""
     st.subheader("2. Revisa lo que identificó Gemma")
     st.caption("Corrige el material, indica qué es y responde lo que sepas. "
                "«No sé» queda como dato pendiente: no lo inventamos.")
@@ -173,9 +174,8 @@ def review(result: IdentificationResult, centers: list[Center], key: str = "revi
     if unconfirmed:
         st.warning("Sin confirmar: " + ", ".join(unconfirmed)
                    + ". Puedes continuar; el centro no podrá decidir con datos sin confirmar.")
-    if not st.button("Confirmar materiales", type="primary"):
-        return None
-    return [_confirmed_item(r, originals[r["item_id"]], result.analysis_id) for r in rows]
+    draft = [_confirmed_item(r, originals[r["item_id"]], result.analysis_id) for r in rows]
+    return draft, st.button("Confirmar materiales", type="primary")
 
 
 def center_picker(centers: list[Center]) -> str | None:
