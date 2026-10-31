@@ -30,7 +30,7 @@ def response(text=None, *, reason="STOP", parts=None):
 
 class IdentificationTests(unittest.TestCase):
     def setUp(self):
-        self.env = patch.dict("os.environ", {"GEMINI_API_KEY": "test-only", "GEMMA_MODEL": "gemma-4-26b-a4b-it"})
+        self.env = patch.dict("os.environ", {"GEMINI_API_KEY": "test-only", "GEMINI_MODEL": "gemma-4-26b-a4b-it"})
         self.env.start()
         self.addCleanup(self.env.stop)
         self.req = AnalysisRequest(image_bytes=PNG, mime_type="image/png")
@@ -150,7 +150,7 @@ class IdentificationTests(unittest.TestCase):
 
     @patch("reciclaclaro.ai.client.urlopen")
     def test_disallowed_model_is_not_sent(self, send):
-        with patch.dict("os.environ", {"GEMMA_MODEL": "other-model"}):
+        with patch.dict("os.environ", {"GEMINI_MODEL": "other-model"}):
             with self.assertRaises(ReciclaClaroError):
                 identify(self.req)
         send.assert_not_called()
