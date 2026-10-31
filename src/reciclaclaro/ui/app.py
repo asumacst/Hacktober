@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import sys
-from datetime import date, datetime
+from datetime import datetime
 from pathlib import Path
 
 # Permite `streamlit run` sin instalar el paquete (la estructura la define el Rol D).
@@ -12,9 +14,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import streamlit as st  # noqa: E402
 
 from reciclaclaro.contracts import (  # noqa: E402
-    AnalysisRequest, AppError, Center, CenterRule, ComparisonResult, DeliveryPlan,
-    DetectedItem, IdentificationResult, Material, ReciclaClaroError,
+    AnalysisRequest, AppError, Center, ConfirmedItem, DeliveryPlan, DetectedItem,
+    IdentificationResult, Material, ReciclaClaroError,
 )
+from reciclaclaro.logic import compare_items, load_centers  # noqa: E402
 from reciclaclaro.ui import components as ui  # noqa: E402
 from reciclaclaro.ui import state  # noqa: E402
 
@@ -24,30 +27,20 @@ except ImportError:
     client = None
 
 
-# TEMPORAL: adaptador mínimo mientras llega ui/client.py desde feature/noel-codex.
-# Eliminar al integrar. Todo lo que devuelve es MOCK.
+# TEMPORAL: adaptador mínimo mientras llegan ui/client.py (feature/noel-codex) y el
+# orquestador de Ángel. Eliminar al integrar. La identificación es MOCK; centros y
+# comparación usan el catálogo y el comparador reales de José (logic/).
 class _TemporalClient:
-    _CENTER = Center(
-        center_id="centro-ejemplo", name="Centro de ejemplo (MOCK)",
-        source_url="https://example.org/centro-ejemplo", consulted_on=date(2026, 10, 31),
-        rules=[
-            CenterRule(material=Material.PET_1, status="aceptado", preparation="Vacía, enjuaga y aplasta la botella.",
-                       source_url="https://example.org/centro-ejemplo#pet", consulted_on=date(2026, 10, 31)),
-            CenterRule(material=Material.ALUMINIO, status="aceptado", preparation="Enjuaga y seca la lata.",
-                       source_url="https://example.org/centro-ejemplo#aluminio", consulted_on=date(2026, 10, 31)),
-            CenterRule(material=Material.VIDRIO, status="no_admitido", preparation=None,
-                       source_url="https://example.org/centro-ejemplo#vidrio", consulted_on=date(2026, 10, 31)),
-        ],
-    )
-
     def identify(self, req: AnalysisRequest) -> IdentificationResult:
         return IdentificationResult(
             items=[
                 DetectedItem(item_id="obj-1", description="Botella transparente", proposed_material=Material.PET_1,
-                             visible_evidence="Símbolo 1 visible en la base"),
-                DetectedItem(item_id="obj-2", description="Lata", proposed_material=Material.ALUMINIO,
-                             visible_evidence="Forma y brillo metálico"),
-                DetectedItem(item_id="obj-3", description="Envase blanco sin símbolo",
+                             proposed_presentation="botella", visible_evidence="Símbolo 1 visible en la base"),
+                DetectedItem(item_id="obj-2", description="Caja de cartón", proposed_material=Material.PAPEL_CARTON,
+                             proposed_presentation="caja", visible_evidence="Cartón marrón con pliegues"),
+                DetectedItem(item_id="obj-3", description="Frasco de vidrio", proposed_material=Material.VIDRIO,
+                             proposed_presentation="envase", visible_evidence="Vidrio transparente con tapa"),
+                DetectedItem(item_id="obj-4", description="Envase blanco sin símbolo",
                              proposed_material=Material.DESCONOCIDO, visible_evidence="No se distingue el símbolo",
                              pending_question="¿Qué número tiene el símbolo de reciclaje?"),
             ],
@@ -55,23 +48,18 @@ class _TemporalClient:
         )
 
     def list_centers(self) -> list[Center]:
-        return [self._CENTER]
+        return load_centers()
 
-    def compare(self, items, center_id: str) -> DeliveryPlan:
-        rules = {r.material: r for r in self._CENTER.rules}
-        results = []
-        for item in items:
-            rule = rules.get(item.material)
-            if rule is None:
-                results.append(ComparisonResult(item_id=item.item_id, center_id=center_id, status="pendiente",
-                                                reason="El catálogo no tiene una regla para este material."))
-            else:
-                results.append(ComparisonResult(
-                    item_id=item.item_id, center_id=center_id, status=rule.status,
-                    reason="Según las condiciones documentadas del centro.", preparation=rule.preparation,
-                    rule_source_url=rule.source_url, consulted_on=rule.consulted_on))
-        return DeliveryPlan(center=self._CENTER, results=results, generated_at=datetime.now(),
-                            input_fingerprint="mock")
+    def compare(self, items: list[ConfirmedItem], center_id: str) -> DeliveryPlan:
+        center = next((c for c in self.list_centers() if c.center_id == center_id), None)
+        if center is None:
+            raise ReciclaClaroError(AppError(category="entrada_invalida",
+                                             message="Elige un centro del catálogo.", retryable=False))
+        payload = json.dumps([i.model_dump(mode="json") for i in items] + [center_id], sort_keys=True)
+        return DeliveryPlan(center=center, results=compare_items(items, center), generated_at=datetime.now(),
+                            input_fingerprint=hashlib.sha256(payload.encode()).hexdigest(),
+                            analysis_id=items[0].analysis_id if items else None,
+                            revision=items[0].revision if items else 0)
 
 
 api = client if client is not None else _TemporalClient()
@@ -128,14 +116,14 @@ if result is None:
 if result.is_mock:
     ui.mock_banner()
 
-confirmed = ui.review(result)
+centers = call(api.list_centers) or []
+confirmed = ui.review(result, centers, key=state.fingerprint(image_bytes, [], None)[:12])
 if confirmed is not None:
     ss.confirmed = confirmed
 if ss.confirmed is None:
     ui.model_footer(result)
     st.stop()
 
-centers = call(api.list_centers) or []
 center_id = ui.center_picker(centers)
 if center_id is None:
     ui.model_footer(result)
