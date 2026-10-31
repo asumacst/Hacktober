@@ -21,6 +21,17 @@ Genera `analysis_id` e `item_id`; conserva las preguntas por atributo y proyecta
 la primera en `pending_question`. No produce hechos confirmados ni aplica reglas.
 Un nuevo análisis produce IDs nuevos. C conserva el ID durante las correcciones.
 
+## Presentaciones y evidencia visual
+
+El prompt usa el vocabulario del catálogo CAR: botella, envase, envase_huevos,
+envase_ensalada, envase_ketchup, envase_sirope, tapita, espejo, ventana,
+puerta_vidrio, mesa_vidrio, caja y caja_desarmada. Una presentación ambigua o
+fuera de ese vocabulario produce una propuesta nula y una pregunta. No se infiere
+resina por la marca o el contenido ni se fuerza coincidencia con reglas.
+Las condiciones de preparación las recoge la UI según el catálogo; el análisis
+visual no las convierte en hechos confirmados. Este ajuste requiere evaluación
+con imágenes reales; las pruebas de transporte no demuestran su calidad visual.
+
 ## Configuración y límites iniciales
 
 - Python con Pydantic 2, ya requerido por los contratos. Sin SDK adicional:
