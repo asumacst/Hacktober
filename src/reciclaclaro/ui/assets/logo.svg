@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 64" width="248" height="64" role="img" aria-label="ReciclaClaro">
+  <g>
+    <rect width="64" height="64" rx="16" fill="#0B5D55"/>
+    <path d="M15 46 V18 h9 a7 7 0 0 1 0 14 h-9 M22 32 l7.5 13 M52 23.5 a12.5 12.5 0 1 0 0 17"
+          fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="52" cy="23.5" r="3.6" fill="#E9A23B"/>
+  </g>
+  <text x="76" y="41" font-family="'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif" font-size="25" font-weight="800" letter-spacing="-0.5">
+    <tspan fill="#0B5D55">Recicla</tspan><tspan fill="#2F8F5B">Claro</tspan>
+  </text>
+</svg>
