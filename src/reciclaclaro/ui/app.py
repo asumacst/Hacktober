@@ -2,52 +2,23 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
-import os
 import sys
-from datetime import datetime
 from pathlib import Path
 
 # Permite `streamlit run` sin instalar el paquete (la estructura la define el Rol D).
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "src"))
 
 import streamlit as st  # noqa: E402
+from dotenv import load_dotenv  # noqa: E402
 
-from reciclaclaro.contracts import (  # noqa: E402
-    AnalysisRequest, AppError, Center, ConfirmedItem, DeliveryPlan, IdentificationResult,
-    ReciclaClaroError,
-)
-from reciclaclaro.logic import compare_items, load_centers  # noqa: E402
+# RECICLACLARO_UI_MODE se lee del .env antes de elegir el adaptador; el entorno manda.
+load_dotenv(ROOT / ".env", override=False)
+
+from reciclaclaro.contracts import AnalysisRequest, AppError, IdentificationResult, ReciclaClaroError  # noqa: E402
+from reciclaclaro.ui import client as api  # noqa: E402  mock: fixtures · live: orquestador
 from reciclaclaro.ui import components as ui  # noqa: E402
 from reciclaclaro.ui import state  # noqa: E402
-
-from reciclaclaro.ui import client  # noqa: E402
-
-
-# TEMPORAL hasta que exista el orquestador de Ángel: en modo mock, client.py replica
-# identificaciones MOCK, pero los centros y la comparación usan el catálogo y el
-# comparador reales de José (logic/) en lugar de los fixtures ficticios.
-# En modo live todo pasa por client.py → reciclaclaro.orchestrator.
-class _CatalogClient:
-    identify = staticmethod(client.identify)
-
-    def list_centers(self) -> list[Center]:
-        return load_centers()
-
-    def compare(self, items: list[ConfirmedItem], center_id: str) -> DeliveryPlan:
-        center = next((c for c in self.list_centers() if c.center_id == center_id), None)
-        if center is None:
-            raise ReciclaClaroError(AppError(category="entrada_invalida",
-                                             message="Elige un centro del catálogo.", retryable=False))
-        payload = json.dumps([i.model_dump(mode="json") for i in items] + [center_id], sort_keys=True)
-        return DeliveryPlan(center=center, results=compare_items(items, center), generated_at=datetime.now(),
-                            input_fingerprint=hashlib.sha256(payload.encode()).hexdigest(),
-                            analysis_id=items[0].analysis_id if items else None,
-                            revision=items[0].revision if items else 0)
-
-
-api = client if os.environ.get("RECICLACLARO_UI_MODE", "mock").strip().lower() == "live" else _CatalogClient()
 
 
 def call(fn, *args):
@@ -81,6 +52,7 @@ if photo is None:
 image_bytes, mime = photo
 if ss.image_bytes != image_bytes:
     state.on_new_photo(ss, image_bytes, mime)
+state.on_backend(ss, backend)
 
 if st.button("Identificar materiales", type="primary", disabled=ss.identification is not None):
     with st.status("Gemma está analizando la foto…", expanded=False) as status:
@@ -101,11 +73,29 @@ if result is None:
 if result.is_mock:
     ui.mock_banner()
 
-centers = call(api.list_centers) or []
-confirmed = ui.review(result, centers, key=state.fingerprint(image_bytes, [], None)[:12])
-if confirmed is not None:
-    ss.confirmed = confirmed
+centers = call(api.list_centers)
+if centers is None:  # fallo al cargar el catálogo: distinto de un catálogo vacío
+    if ui.error(ss.error):
+        ss.error = None
+        st.rerun()
+    ui.model_footer(result)
+    st.stop()
+if not centers:
+    st.warning("El catálogo no tiene centros de acopio documentados todavía. "
+               "Sin un centro no podemos comparar tus materiales.")
+    ui.model_footer(result)
+    st.stop()
+
+# La clave incluye foto y proveedor para no arrastrar respuestas de otro análisis.
+review_key = f"{state.fingerprint(image_bytes, [], None)[:12]}-{backend}"
+draft, submitted = ui.review(result, centers, key=review_key)
+if submitted:
+    ss.confirmed = draft
 if ss.confirmed is None:
+    ui.model_footer(result)
+    st.stop()
+if state.has_pending_edits(ss, draft):
+    st.warning("Tienes cambios sin confirmar. Pulsa «Confirmar materiales» para generar un plan actualizado.")
     ui.model_footer(result)
     st.stop()
 

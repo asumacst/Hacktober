@@ -13,7 +13,7 @@ from collections.abc import MutableMapping
 from reciclaclaro.contracts import ConfirmedItem
 
 KEYS = (
-    "image_bytes", "mime_type", "identification", "confirmed",
+    "image_bytes", "mime_type", "backend", "identification", "confirmed",
     "center_id", "plan", "plan_fp", "error",
 )
 DOWNSTREAM = ("identification", "confirmed", "center_id", "plan", "plan_fp", "error")
@@ -42,6 +42,20 @@ def on_new_photo(ss: MutableMapping, image_bytes: bytes, mime_type: str) -> None
     ss["mime_type"] = mime_type
     for key in DOWNSTREAM:
         ss[key] = None
+
+
+def on_backend(ss: MutableMapping, backend: str) -> None:
+    """Cambiar de proveedor invalida el análisis y lo que depende de él; la foto se conserva."""
+    if ss.get("backend") == backend:
+        return
+    ss["backend"] = backend
+    for key in DOWNSTREAM:
+        ss[key] = None
+
+
+def has_pending_edits(ss: MutableMapping, draft: list[ConfirmedItem]) -> bool:
+    """True si el formulario cambió desde la última confirmación."""
+    return ss.get("confirmed") is not None and draft != ss["confirmed"]
 
 
 def plan_is_current(ss: MutableMapping, current_fp: str) -> bool:
