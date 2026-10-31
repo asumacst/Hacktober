@@ -23,7 +23,7 @@ from reciclaclaro.contracts import (
 
 _MODELS = {"gemma-4-26b-a4b-it", "gemma-4-31b-it"}
 _DEFAULT_MODEL = "gemma-4-26b-a4b-it"
-_MAX_IMAGE_BYTES = 5 * 1024 * 1024
+_MAX_IMAGE_BYTES = 8 * 1024 * 1024
 _MAX_RESPONSE_BYTES = 256 * 1024
 _TIMEOUT_SECONDS = 30
 
@@ -71,7 +71,7 @@ def _error(category, message, retryable=False):
 def _validate_image(req):
     data = req.image_bytes
     if not data or len(data) > _MAX_IMAGE_BYTES:
-        raise _error("entrada_invalida", "Sube una imagen de entre 1 byte y 5 MiB.")
+        raise _error("entrada_invalida", "Sube una imagen de entre 1 byte y 8 MiB.")
     signatures = {
         "image/jpeg": data.startswith(b"\xff\xd8\xff"),
         "image/png": data.startswith(b"\x89PNG\r\n\x1a\n"),

@@ -120,12 +120,24 @@ class IdentificationTests(unittest.TestCase):
         for data, mime, backend in [(b"", "image/png", "gemini_api"),
                                     (b"invalid", "image/png", "gemini_api"),
                                     (PNG, "image/jpeg", "gemini_api"),
-                                    (PNG + b"x" * (5 * 1024 * 1024), "image/png", "gemini_api"),
+                                    (PNG + b"x" * (8 * 1024 * 1024), "image/png", "gemini_api"),
                                     (PNG, "image/png", "local")]:
             with self.subTest(mime=mime, backend=backend):
                 with self.assertRaises(ReciclaClaroError) as caught:
                     identify(AnalysisRequest(image_bytes=data, mime_type=mime, backend=backend))
                 self.assertEqual(caught.exception.error.category, "entrada_invalida")
+        send.assert_not_called()
+
+    @patch("reciclaclaro.ai.client.urlopen")
+    def test_eight_mib_boundary_is_accepted_and_one_extra_byte_is_rejected(self, send):
+        limit = 8 * 1024 * 1024
+        data = PNG + b"x" * (limit - len(PNG))
+        result = identify(AnalysisRequest(image_bytes=data, mime_type="image/png"), mock=True)
+        self.assertTrue(result.is_mock)
+        with self.assertRaises(ReciclaClaroError) as caught:
+            identify(AnalysisRequest(image_bytes=data + b"x", mime_type="image/png"), mock=True)
+        self.assertEqual(caught.exception.error.category, "entrada_invalida")
+        self.assertIn("8 MiB", caught.exception.error.message)
         send.assert_not_called()
 
     @patch("reciclaclaro.ai.client.urlopen")

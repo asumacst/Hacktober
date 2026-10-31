@@ -29,7 +29,7 @@ Un nuevo análisis produce IDs nuevos. C conserva el ID durante las correcciones
   No hay carga automática de `.env`; D debe configurar el entorno.
 - `GEMMA_MODEL`: por defecto `gemma-4-26b-a4b-it`; también admite
   `gemma-4-31b-it`. No cambia de variante silenciosamente.
-- JPEG, PNG o WebP, máximo 5 MiB. Se comprueba tamaño y firma del contenedor;
+- JPEG, PNG o WebP, máximo 8 MiB. Se comprueba tamaño y firma del contenedor;
   no se decodifica completamente la imagen. Archivos corruptos con cabecera
   válida pueden ser rechazados por el proveedor.
 - Hasta 10 objetos, respuesta máxima 256 KiB y timeout de socket de 30 s por
